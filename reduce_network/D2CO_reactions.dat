@@ -1,0 +1,31 @@
+CH          CH2DOD                  CH3         D2CO                                2.49E-11    -1.93      0.0    0.    0.  5     
+CH          CHD2OH                  CH3         D2CO                                2.49E-11    -1.93      0.0    0.    0.  5     
+CH          CHD2OD                  CH2D        D2CO                                7.47E-11    -1.93      0.0    0.    0.  5     
+CH          CD3OH                   CH2D        D2CO                                7.47E-11    -1.93      0.0    0.    0.  5     
+CH          CD3OD                   CHD2        D2CO                                1.49E-10    -1.93      0.0    0.    0.  5     
+CH3OD2+     E-                      D2CO        H2          H                       8.90E-08    -0.59      0.0    0.    0.  5     
+CH2DOD2+    E-                      D2CO        HD          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CH2DOD2+    E-                      D2CO        H2          D                       8.90E-08    -0.59      0.0    0.    0.  5     
+CHD2OH2+    E-                      D2CO        H2          H                       8.90E-08    -0.59      0.0    0.    0.  5     
+CHD2OD2+    E-                      D2CO        HD          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CHD2OD2+    E-                      D2CO        D2          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CD3OH2+     E-                      D2CO        HD          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CD3OH2+     E-                      D2CO        H2          D                       8.90E-08    -0.59      0.0    0.    0.  5     
+CD3OD2+     E-                      D2CO        D2          D                       8.90E-07    -0.59      0.0    0.    0.  5     
+CH2DOHD+    E-                      D2CO        H2          H                       8.90E-08    -0.59      0.0    0.    0.  5     
+CHD2OHD+    E-                      D2CO        HD          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CHD2OHD+    E-                      D2CO        H2          D                       8.90E-08    -0.59      0.0    0.    0.  5     
+CD3OHD+     E-                      D2CO        HD          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CD3OHD+     E-                      D2CO        D2          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+O           D2CO                    CO          OD          D                       1.00E-10     0.00      0.0    0.    0.  5     
+H3O+        D2CO                    H2DCO+      HDO                                 2.04E-09    -0.50      0.0    0.    0.  5     
+CHD2        O                       D2CO        H                                   4.33E-11     0.00      0.0    0.    0.  5     
+CD3         O                       D2CO        D                                   1.30E-10     0.00      0.0    0.    0.  5     
+HD2CO+      E-                      D2CO        H                                   6.67E-08    -0.50      0.0    0.    0.  5     
+D3CO+       E-                      D2CO        D                                   2.00E-07    -0.50      0.0    0.    0.  5     
+C+          D2CO                    CO          CD2+                                2.34E-09    -0.50      0.0    0.    0.  5     
+D2CO        S+                      D2S+        CO                                  3.35E-10    -0.50      0.0    0.    0.  5     
+H3+         D2CO                    H2DCO+      HD                                  3.78E-09    -0.50      0.0    0.    0.  5     
+H2DO+       D2CO                    D3CO+       H2O                                 3.40E-10    -0.50      0.0    0.    0.  5     
+CHD2CHOH+   E-                      D2CO        CH3                                 1.50E-08    -0.50      0.0    0.    0.  5     
+OH          D2CO                    DCOOD       H                                   6.67E-14     0.00      0.0    0.    0.  5     

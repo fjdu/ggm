@@ -1,0 +1,31 @@
+&PhysicalParameters
+T_gas = 20.0D0
+T_dust = 20.0D0
+n_H = 2.0D5 ! total hydrogen number density
+Av = 15.0D0 ! NHtotal / 1.6D21
+omega_Albedo = 0.5D0
+rateCosIon = 3.0D-17
+ratioDustGasMass = 1.3D-2
+GrainDensity = 2.0D0 ! g/cm^3
+GrainRadius = 1.0D-1 ! micron !for gas-to-dust ratio, coulomb correction, rate correction
+nSpecies_Est = 512
+rateThreshold = 0.0D0 !1D-120
+MeanMolWeight = 1.4D0
+/
+&ODEParameters
+nIteration = 350
+RTOL = 1.0D-6 ! relative tolerance
+ATOL = 1.0D-90 ! absolute tolerance
+/
+&Paths
+path = "./"
+fReactions = "rate06_dipole_reformated_r.dat" !"rate06_nondipole_reformated.dat" ! input
+fInitialCondition = "initial_condition_Garrod08.dat"
+fReactionsSave = "reactions_saved.dat" ! output
+fSpeciesSave = "species_saved.dat" ! output
+fRatesSave = "rates_saved.dat" ! output
+fSaveFinalResult = "final_abundance_HC3N.txt" ! output
+fSaveALLHistory = "evolveHistory_HC3N.dat" ! output
+fSaveElementalAb = "elemental_abundance.txt" ! output
+fAnalyseResult = "AnalyseResult.txt"
+/

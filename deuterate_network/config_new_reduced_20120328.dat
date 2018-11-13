@@ -1,0 +1,30 @@
+&PhysicalParameters
+Temperature =    10.00
+n_H =       2.000E+05
+rateCosIon =    1.300000E-17
+Av =       1.500E+01
+omega_Albedo =       5.000E-01
+BarrierWidth = 1D-10
+MeanMolWeight = 1.4D0
+ratioDustGasMass = 1.0D-2
+GrainDensity = 2.0D3
+GrainRadius =    1.000000E-07
+SitesDensity = 5.0D13
+nSpecies_Est =          600
+timeUnit = 1.0D0
+sto_threshold =    1.000000E+00
+rateThreshold = 0D0
+nOrderLim =      2
+nDeutDegree = 5
+nHDeutMax =5
+nOtherDeutMax = 3
+/
+&ODEParameters
+nIteration =   1951
+RTOL = 1.0D-10
+ATOL = 1.0D-35
+/
+&Paths
+path = "./"
+fReactions = "rate06_dipole_reduced_20120328.dat"
+/

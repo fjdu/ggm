@@ -1,0 +1,41 @@
+&PhysicalParameters
+Temperature = 20.0D0
+n_H = 2.0D5 ! total hydrogen number density
+Av = 15.0D0 ! NHtotal / 1.6D21
+omega_Albedo = 0.5D0
+rateCosIon = 3.0D-17
+rateHHH2 = 3.003953e-18 !3.002221e-18 !
+ratioDustGasMass = 1.3D-2
+GrainDensity = 2.0D0 ! g/cm^3
+GrainRadius = 1.0D-1 ! micron !for gas-to-dust ratio, coulomb correction, rate correction
+GrainRadiusBase = 0.02 !0.0202 ! micron ! for rate correction
+aGrainMin = 1.0D-5 ! 1D-6 !cm ! only used for calculating the H+H->H2 rate
+aGrainMax = 1.0D-5 ! 3D-5 !cm ! only used for calculating the H+H->H2 rate
+timeUnit = 1.0D2 ! in years
+nSpecies_Est = 512
+rateThreshold = 0.0D0 !1D-120
+/
+&ODEParameters
+nIteration = 350
+RTOL = 1.0D-6 ! relative tolerance
+ATOL = 1.0D-90 ! absolute tolerance
+/
+&PlotParameters
+yPGmax = -3.0 !-3.5 ! y plot range, logarithmic
+yPGmin = -13.5
+/
+&Paths
+path = "./"
+fReactions = "rate06_dipole_reformated.dat" !"rate06_nondipole_reformated.dat" ! input
+fInitialCondition = "initial_condition_2.dat"
+fDissRecom = "Pagani2009.dat" ! input
+fPlotList = "saveHistoryList_2.txt" !"plotList.txt" ! input
+fReactionsSave = "reactions_saved.dat" ! output
+fSpeciesSave = "species_saved.dat" ! output
+fRatesSave = "rates_saved.dat" ! output
+fSaveFinalResult = "final_abundance_20120321.txt" ! output
+fSaveALLHistory = "evolveHistory.dat" ! output
+fSaveElementalAb = "elemental_abundance.txt" ! output
+fPGout = "ChemEvol.ps/CPS" !"ChemEvol.gif/GIF" !"/XWINDOW" !
+fAnalyseResult = "AnalyseResult.txt"
+/

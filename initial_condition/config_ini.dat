@@ -1,0 +1,41 @@
+&PhysicalParameters
+Temperature =    30.00
+n_H =       1.000E+06
+Av = 15.0D0
+omega_Albedo = 0.5D0
+rateCosIon = 3.0D-17
+rateHHH2 = 3.003953e-18
+ratioDustGasMass = 1.3D-2
+GrainDensity = 2.0D0
+GrainRadius = 1.0D-1
+GrainRadiusBase = 0.02
+aGrainMin = 1.0D-5
+aGrainMax = 1.0D-5
+timeUnit = 1.0D2
+nSpecies_Est = 512
+rateThreshold = 0.0D0
+/
+&ODEParameters
+nIteration = 750
+RTOL = 1.0D-6
+ATOL = 1.0D-90
+/
+&PlotParameters
+yPGmax = -3.0
+yPGmin = -13.5
+/
+&Paths
+path = "/homes/fjdu/projects/DeuteriumGasGrain/streamline/initial_condition/"
+fReactions = "rate06_dipole_reduced_20120426_50K_com_red_com.dat"
+fInitialCondition = "initial_condition_Garrod08.dat"
+fDissRecom = "Pagani2009.dat"
+fPlotList = "saveHistoryList_2.txt"
+fReactionsSave = "reactions_saved.dat"
+fSpeciesSave = "species_saved.dat"
+fRatesSave = "rates_saved.dat"
+fSaveFinalResult = "initial_condition_steady.dat"
+fSaveALLHistory = "evolveHistory.dat"
+fSaveElementalAb = "elemental_abundance.txt"
+fPGout = "ChemEvol.ps/CPS"
+fAnalyseResult = "AnalyseResult.txt"
+/

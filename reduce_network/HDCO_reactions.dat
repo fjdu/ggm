@@ -1,0 +1,61 @@
+HDCO        O2H                     H2O2        DCO                                 1.10E-12     0.00   5870.0    0.    0.  5     
+HDCO        O2H                     HDO2        HCO                                 2.20E-12     0.00   5870.0    0.    0.  5     
+HCO         O2D                     O2          HDCO                                5.00E-11     0.00      0.0    0.    0.  5     
+CH          CH3OD                   CH3         HDCO                                9.96E-11    -1.93      0.0    0.    0.  5     
+CH          CH2DOH                  CH3         HDCO                                9.96E-11    -1.93      0.0    0.    0.  5     
+CH          CH2DOD                  CH2D        HDCO                                1.49E-10    -1.93      0.0    0.    0.  5     
+CH          CHD2OH                  CH2D        HDCO                                1.49E-10    -1.93      0.0    0.    0.  5     
+CH          CHD2OD                  CHD2        HDCO                                1.49E-10    -1.93      0.0    0.    0.  5     
+CH          CD3OH                   CHD2        HDCO                                1.49E-10    -1.93      0.0    0.    0.  5     
+CH          CD3OD                   CD3         HDCO                                9.96E-11    -1.93      0.0    0.    0.  5     
+CH3OD2+     E-                      HDCO        HD          H                       3.56E-07    -0.59      0.0    0.    0.  5     
+CH3OD2+     E-                      HDCO        H2          D                       1.78E-07    -0.59      0.0    0.    0.  5     
+CH2DOH2+    E-                      HDCO        H2          H                       3.56E-07    -0.59      0.0    0.    0.  5     
+CH2DOD2+    E-                      HDCO        HD          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CH2DOD2+    E-                      HDCO        D2          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CHD2OH2+    E-                      HDCO        HD          H                       3.56E-07    -0.59      0.0    0.    0.  5     
+CHD2OH2+    E-                      HDCO        H2          D                       1.78E-07    -0.59      0.0    0.    0.  5     
+CHD2OD2+    E-                      HDCO        D2          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CD3OH2+     E-                      HDCO        HD          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CD3OH2+     E-                      HDCO        D2          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CH3OHD+     E-                      HDCO        H2          H                       3.56E-07    -0.59      0.0    0.    0.  5     
+CH2DOHD+    E-                      HDCO        HD          H                       3.56E-07    -0.59      0.0    0.    0.  5     
+CH2DOHD+    E-                      HDCO        H2          D                       1.78E-07    -0.59      0.0    0.    0.  5     
+CHD2OHD+    E-                      HDCO        HD          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+CHD2OHD+    E-                      HDCO        D2          H                       1.78E-07    -0.59      0.0    0.    0.  5     
+CD3OHD+     E-                      HDCO        D2          D                       3.56E-07    -0.59      0.0    0.    0.  5     
+O           HDCO                    CO          OD          H                       5.00E-11     0.00      0.0    0.    0.  5     
+O           HDCO                    CO          OH          D                       5.00E-11     0.00      0.0    0.    0.  5     
+H3O+        HDCO                    H2DCO+      H2O                                 2.04E-09    -0.50      0.0    0.    0.  5     
+CH2D        O                       HDCO        H                                   8.67E-11     0.00      0.0    0.    0.  5     
+CHD2        O                       HDCO        D                                   8.67E-11     0.00      0.0    0.    0.  5     
+H2DCO+      E-                      HDCO        H                                   1.33E-07    -0.50      0.0    0.    0.  5     
+HD2CO+      E-                      HDCO        D                                   1.33E-07    -0.50      0.0    0.    0.  5     
+H2O         HD2CO+                  HDCO        H2DO+                               1.38E-10    -0.50      0.0    0.    0.  5     
+H2O         D3CO+                   HDCO        HD2O+                               1.38E-10    -0.50      0.0    0.    0.  5     
+HDCO        S+                      HDS+        CO                                  3.35E-10    -0.50      0.0    0.    0.  5     
+C+          HDCO                    CO          CHD+                                2.34E-09    -0.50      0.0    0.    0.  5     
+OH          HDCO                    HCOOD       H                                   6.67E-14     0.00      0.0    0.    0.  5     
+OH          HDCO                    DCOOH       H                                   6.67E-14     0.00      0.0    0.    0.  5     
+HD2+        HDCO                    D3CO+       H2                                  6.30E-10    -0.50      0.0    0.    0.  5     
+HDCO        S+                      DS          HCO+                                1.67E-10    -0.50      0.0    0.    0.  5     
+C+          HDCO                    HDCO+       C                                   7.80E-10    -0.50      0.0    0.    0.  5     
+HCO+        HDCO                    H2DCO+      CO                                  3.30E-09    -0.50      0.0    0.    0.  5     
+CH2DCHOH+   E-                      HDCO        CH3                                 6.00E-08    -0.50      0.0    0.    0.  5     
+OD          HDCO                    DCOOD       H                                   6.67E-14     0.00      0.0    0.    0.  5     
+H3+         HDCO                    H2DCO+      H2                                  3.78E-09    -0.50      0.0    0.    0.  5     
+H2D+        HDCO                    HD2CO+      H2                                  1.89E-09    -0.50      0.0    0.    0.  5     
+CH2DCDOH+   E-                      HDCO        CH2D                                9.00E-08    -0.50      0.0    0.    0.  5     
+CH2DCHOD+   E-                      HDCO        CH2D                                9.00E-08    -0.50      0.0    0.    0.  5     
+CHD2CHOH+   E-                      HDCO        CH2D                                9.00E-08    -0.50      0.0    0.    0.  5     
+CH3CDOD+    E-                      HDCO        CH2D                                9.00E-08    -0.50      0.0    0.    0.  5     
+CHD2CDOH+   E-                      HDCO        CHD2                                9.00E-08    -0.50      0.0    0.    0.  5     
+CHD2CHOD+   E-                      HDCO        CHD2                                9.00E-08    -0.50      0.0    0.    0.  5     
+CH2DCDOD+   E-                      HDCO        CHD2                                9.00E-08    -0.50      0.0    0.    0.  5     
+CD3CHOH+    E-                      HDCO        CHD2                                9.00E-08    -0.50      0.0    0.    0.  5     
+NH3         HD2CO+                  HDCO        NH3D+                               1.23E-09    -0.50      0.0    0.    0.  5     
+NH3         D3CO+                   HDCO        NH2D2+                              1.38E-09    -0.50      0.0    0.    0.  5     
+HCN         H2DCO+                  HDCO        HCNH+                               6.50E-10    -0.50      0.0    0.    0.  5     
+HD2O+       HDCO                    D3CO+       H2O                                 3.40E-10    -0.50      0.0    0.    0.  5     
+CH3CHOD+    E-                      HDCO        CH3                                 6.00E-08    -0.50      0.0    0.    0.  5     
+O           C2H3D2                  HDCO        CH2D                                1.60E-11     0.00      0.0    0.    0.  5     

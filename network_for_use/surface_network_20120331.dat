@@ -1,0 +1,523 @@
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! 2012-03-26 Mon 16:56:53
+!   First completed version.
+!   Some of the parameters for the H2 + OH and the deuteration and abstraction
+!   reactions of H2CO and CH3OH may not be correcte and need to be tuned.
+! 2011-06-04 Sat 20:13:27
+!   This version is fixed.
+! 2011-05-27 Fri 13:19:22 DFJ
+! This is the surface network.
+! It contains three sections:
+!   1. Adsorption of gas phase species.
+!   2. Desorption of surface species.
+!   3. Reactions on the grain surface.
+! The first two usually are not considered as surface reactions.
+! Reference list:
+!   HHL92: Hasegawa et al. 1992
+!   ICet08: Ioppolo et al. 2008, ApJ, 686, 1474
+!   ICet10: Ioppolo et al. 2010, PCCP, 12, 12065
+!   CIRL10: Cuppen et al. 2010, PCCP,12, 12077
+!   HH93: Hasegawa and Herbst 1993 MNRAS, 261, 83
+!   GMet08: Goumans et al. 2008, MNRAS, 384, 1158 [also contains some desorption barrier data for other species]
+!   RH01: Ruffle and Herbst 2001, MNRAS, 324, 1054 [interesting discussions]
+!   TH82: Tielens and Hagen 1982, A&A, 114, 245
+!   FCet09: Fuchs et al. 2009, A&A, 505, 629
+!   ABet04: Atkinson et al. 2004, Atmos. Chem. Phys., 4, 1461
+!   AR77: Allen and Robinson 1977, ApJ, 212, 396
+!   KT05: Keane and Tielens 2005, ***
+!   SH04: Stantcheva and Herbst 2004, ApJ, 423, 241
+!   MCet09: Mokrane et al. 2009, ApJ, 705, 195
+!   Woon02; n=3, QCISD*, Clust, ZPE: *4.1858/8.314
+!   GWH08: Garrod et al. 2008
+!----------------------------------------------------------------------
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! Adsorption of gaseous species.
+! 74 species.
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+H2                                  gH2                                              1.0                                    61
+HD                                  gHD                                              1.0                                    61
+D2                                  gD2                                              1.0                                    61
+H                                   gH                                               1.0                                    61
+D                                   gD                                               1.0                                    61
+O                                   gO                                               1.0                                    61
+OH                                  gOH                                              1.0                                    61
+OD                                  gOD                                              1.0                                    61
+O2                                  gO2                                              1.0                                    61
+H2O                                 gH2O                                             1.0                                    61
+HDO                                 gHDO                                             1.0                                    61
+D2O                                 gD2O                                             1.0                                    61
+CO                                  gCO                                              1.0                                    61
+HCO                                 gHCO                                             1.0                                    61
+DCO                                 gDCO                                             1.0                                    61
+H2CO                                gH2CO                                            1.0                                    61
+HDCO                                gHDCO                                            1.0                                    61
+D2CO                                gD2CO                                            1.0                                    61
+CH3OH                               gCH3OH                                           1.0                                    61
+CH2DOH                              gCH2DOH                                          1.0                                    61
+CHD2OH                              gCHD2OH                                          1.0                                    61
+CD3OH                               gCD3OH                                           1.0                                    61
+CH3OD                               gCH3OD                                           1.0                                    61
+CH2DOD                              gCH2DOD                                          1.0                                    61
+CHD2OD                              gCHD2OD                                          1.0                                    61
+CD3OD                               gCD3OD                                           1.0                                    61
+CO2                                 gCO2                                             1.0                                    61
+C                                   gC                                               1.0                                    61
+CH                                  gCH                                              1.0                                    61
+CD                                  gCD                                              1.0                                    61
+CH2                                 gCH2                                             1.0                                    61
+CHD                                 gCHD                                             1.0                                    61
+CD2                                 gCD2                                             1.0                                    61
+CH3                                 gCH3                                             1.0                                    61
+CH2D                                gCH2D                                            1.0                                    61
+CHD2                                gCHD2                                            1.0                                    61
+CD3                                 gCD3                                             1.0                                    61
+CH4                                 gCH4                                             1.0                                    61
+CH3D                                gCH3D                                            1.0                                    61
+CH2D2                               gCH2D2                                           1.0                                    61
+CHD3                                gCHD3                                            1.0                                    61
+N                                   gN                                               1.0                                    61
+NH                                  gNH                                              1.0                                    61
+ND                                  gND                                              1.0                                    61
+NH2                                 gNH2                                             1.0                                    61
+NHD                                 gNHD                                             1.0                                    61
+ND2                                 gND2                                             1.0                                    61
+NH3                                 gNH3                                             1.0                                    61
+NH2D                                gNH2D                                            1.0                                    61
+NHD2                                gNHD2                                            1.0                                    61
+ND3                                 gND3                                             1.0                                    61
+N2                                  gN2                                              1.0                                    61
+NO                                  gNO                                              1.0                                    61
+O2H                                 gO2H                                             1.0                                    61
+O2D                                 gO2D                                             1.0                                    61
+H2O2                                gH2O2                                            1.0                                    61
+HDO2                                gHDO2                                            1.0                                    61
+HCOOH                               gHCOOH                                           1.0                                    61
+DCOOH                               gDCOOH                                           1.0                                    61
+HCOOD                               gHCOOD                                           1.0                                    61
+DCOOD                               gDCOOD                                           1.0                                    61
+CN                                  gCN                                              1.0                                    61
+HCN                                 gHCN                                             1.0                                    61
+DCN                                 gDCN                                             1.0                                    61
+HNC                                 gHNC                                             1.0                                    61
+DNC                                 gDNC                                             1.0                                    61
+HNO                                 gHNO                                             1.0                                    61
+DNO                                 gDNO                                             1.0                                    61
+S                                   gS                                               1.0                                    61
+HS                                  gHS                                              1.0                                    61
+DS                                  gDS                                              1.0                                    61
+H2S                                 gH2S                                             1.0                                    61
+HDS                                 gHDS                                             1.0                                    61
+D2S                                 gD2S                                             1.0                                    61
+!----------------------------------------------------------------------
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! 2011-05-26 Thu 23:02:04
+! 1. 49 entries in total.
+! 2. Reset the desorption energy barriers according to Hasegawa1993. This is
+!    because we want to incorporate a non-thermal desorption machanism, so it is
+!    better to set the desorption energy barriers to their ``standard'' values
+!    first.
+! 3. The first rate coefficients are changed into 1.0, instead of 1E12. A new variable is used to contain the value 1E12.
+! 74 species
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+gH2                                 H2                                               1.0                  450.0             62      !HH93
+gHD                                 HD                                               1.0                  450.0             62
+gD2                                 D2                                               1.0                  450.0             62
+gH                                  H                                                1.0                  350.0             62      !HH93
+gD                                  D                                                1.0                  350.0             62
+gO                                  O                                                1.0                  800.0             62      !HH93
+gOH                                 OH                                               1.0                 1260.0             62      !HH93
+gOD                                 OD                                               1.0                 1260.0             62
+gO2                                 O2                                               1.0                 1210.0             62      !HH93
+gH2O                                H2O                                              1.0                 1860.0             62      !HH93
+gHDO                                HDO                                              1.0                 1860.0             62
+gD2O                                D2O                                              1.0                 1860.0             62
+gCO                                 CO                                               1.0                 1210.0             62      !HH93
+gHCO                                HCO                                              1.0                 1510.0             62      !HH93
+gDCO                                DCO                                              1.0                 1510.0             62
+gH2CO                               H2CO                                             1.0                 1760.0             62      !HH93
+gHDCO                               HDCO                                             1.0                 1760.0             62
+gD2CO                               D2CO                                             1.0                 1760.0             62
+gCH3OH                              CH3OH                                            1.0                 2060.0             62      !HH93
+gCH2DOH                             CH2DOH                                           1.0                 2060.0             62
+gCHD2OH                             CHD2OH                                           1.0                 2060.0             62
+gCD3OH                              CD3OH                                            1.0                 2060.0             62
+gCH3OD                              CH3OD                                            1.0                 2060.0             62
+gCH2DOD                             CH2DOD                                           1.0                 2060.0             62
+gCHD2OD                             CHD2OD                                           1.0                 2060.0             62
+gCD3OD                              CD3OD                                            1.0                 2060.0             62
+gCO2                                CO2                                              1.0                 2500.0             62      !HH93
+gC                                  C                                                1.0                  800.0             62      !HH93
+gCH                                 CH                                               1.0                  654.0             62      !HH93
+gCD                                 CD                                               1.0                  654.0             62
+gCH2                                CH2                                              1.0                  956.0             62      !HH93
+gCHD                                CHD                                              1.0                  956.0             62
+gCD2                                CD2                                              1.0                  956.0             62
+gCH3                                CH3                                              1.0                 1160.0             62      !HH93
+gCH2D                               CH2D                                             1.0                 1160.0             62
+gCHD2                               CHD2                                             1.0                 1160.0             62
+gCD3                                CD3                                              1.0                 1160.0             62
+gCH4                                CH4                                              1.0                 1360.0             62      !HH93
+gCH3D                               CH3D                                             1.0                 1360.0             62
+gCH2D2                              CH2D2                                            1.0                 1360.0             62
+gCHD3                               CHD3                                             1.0                 1360.0             62
+gN                                  N                                                1.0                  800.0             62      !HH93
+gNH                                 NH                                               1.0                  604.0             62      !HH93
+gND                                 ND                                               1.0                  604.0             62
+gNH2                                NH2                                              1.0                  856.0             62      !HH93
+gNHD                                NHD                                              1.0                  856.0             62
+gND2                                ND2                                              1.0                  856.0             62
+gNH3                                NH3                                              1.0                 1110.0             62      !HH93
+gNH2D                               NH2D                                             1.0                 1110.0             62
+gNHD2                               NHD2                                             1.0                 1110.0             62
+gND3                                ND3                                              1.0                 1110.0             62
+gN2                                 N2                                               1.0                 1210.0             62      !HH93
+gNO                                 NO                                               1.0                 1210.0             62      !HH93
+gO2H                                O2H                                              1.0                 1510.0             62      !HH93
+gO2D                                O2D                                              1.0                 1510.0             62
+gH2O2                               H2O2                                             1.0                 2520.0             62      !HH93
+gHDO2                               HDO2                                             1.0                 2520.0             62
+gHCOOH                              HCOOH                                            1.0                 2570.0             62      !HH93
+gDCOOH                              DCOOH                                            1.0                 2570.0             62
+gHCOOD                              HCOOD                                            1.0                 2570.0             62
+gDCOOD                              DCOOD                                            1.0                 2570.0             62
+gCN                                 CN                                               1.0                 1510.0             62      !HH93
+gHCN                                HCN                                              1.0                 1760.0             62      !HH93
+gDCN                                DCN                                              1.0                 1760.0             62
+gHNC                                HNC                                              1.0                 1760.0             62      !Est
+gDNC                                DNC                                              1.0                 1760.0             62
+gHNO                                HNO                                              1.0                 1510.0             62      !HH93
+gDNO                                DNO                                              1.0                 1510.0             62
+gS                                  S                                                1.0                 1100.0             62      !HHL92
+gHS                                 HS                                               1.0                 1450.0             62      !Est
+gDS                                 DS                                               1.0                 1450.0             62
+gH2S                                H2S                                              1.0                 1550.0             62      !Est
+gHDS                                HDS                                              1.0                 1550.0             62
+gD2S                                D2S                                              1.0                 1550.0             62
+!----------------------------------------------------------------------
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!2012-03-26 Mon 14:42:00
+!  We need a redefinition of the rate parameters.
+!  A * exp(-2*a/hbar*sqrt(2*m*Ea))
+!  A:   dblABC(1)
+!  a:   dblABC(2),  in Angstrom
+!  Ea:  dblABC(3),  in K
+!  m:   dblDE(1),   in mProton
+!  Empty entries take a value of zero.
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+!R1         R2          R3          P1          P2          P3          P4          A        a        Ea       m_eff __    iT      
+!__________ ___________ ___________ ___________ ___________ ___________ ___________ ________ ________ ________ _____ _____ __ _ __
+gH          gH                      gH2                                              1.0                                    63      !HHL92
+gH          gD                      gHD                                              1.0                                    64      !HHL92
+gD          gD                      gD2                                              1.0                                    63      !HHL92
+
+gH          gO                      gOH                                              1.0                                    64      !ICet10
+gD          gO                      gOD                                              1.0                                    64      !ICet10
+
+gH          gO2                     gO2H                                             1.0        1.0       600.0 1.0         64      !Modified
+gD          gO2                     gO2D                                             1.0        1.0       600.0 2.0         64      !Modified
+
+gH          gO3                     gO2         gOH                                  1.0        1.0       200.0 1.0         64      !Modified
+gD          gO3                     gO2         gOD                                  1.0        1.0       200.0 2.0         64      !Modified
+
+gH          gOH                     gH2O                                             1.0                                    64      !ICet10
+gD          gOH                     gHDO                                             1.0                                    64      !ICet10
+gH          gOD                     gHDO                                             1.0                                    64      !ICet10
+gD          gOD                     gD2O                                             1.0                                    64      !ICet10
+
+gH          gO2H                    gH2O2                                            0.38                                   64      !ICet10
+gD          gO2H                    gHDO2                                            0.38                                   64      !ICet10
+gH          gO2D                    gHDO2                                            0.38                                   64      !ICet10
+
+gH          gO2H                    gOH         gOH                                  0.62                                   64      !CIRL10
+gD          gO2H                    gOH         gOD                                  0.62                                   64      !CIRL10
+gH          gO2D                    gOH         gOD                                  0.62                                   64      !CIRL10
+gD          gO2D                    gOD         gOD                                  0.62                                   64      !CIRL10
+
+gH          gH2O2                   gH2O        gOH                                  1.0                                    64      !ICet08
+gD          gH2O2                   gHDO        gOH                                  0.5                                    64      !ICet08
+gD          gH2O2                   gH2O        gOD                                  0.5                                    64      !ICet08
+gH          gHDO2                   gHDO        gOH                                  0.5                                    64      !ICet08
+gH          gHDO2                   gH2O        gOD                                  0.5                                    64      !ICet08
+
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+gH          gCO                     gHCO                                             0.5        1.0      2500.0 1.0         64      !Garrod08
+gD          gCO                     gDCO                                             0.5        1.0      2500.0 2.0         64      !Garrod08
+gH          gHCO                    gH2CO                                            1.0                                    64      !FCet09
+gD          gHCO                    gHDCO                                            1.0                                    64      !FCet09
+gH          gDCO                    gHDCO                                            1.0                                    64      !FCet09
+gD          gDCO                    gD2CO                                            1.0                                    64      !FCet09
+!-----------------------------------------------------------------------
+gH          gCH3O                   gCH3OH                                           1.00                                   64
+gH          gCH2DO                  gCH2DOH                                          1.00                                   64
+gH          gCHD2O                  gCHD2OH                                          1.00                                   64
+gH          gCD3O                   gCD3OH                                           1.00                                   64
+gD          gCH3O                   gCH3OD                                           1.00                                   64
+gD          gCH2DO                  gCH2DOD                                          1.00                                   64
+gD          gCHD2O                  gCHD2OD                                          1.00                                   64
+gD          gCD3O                   gCD3OD                                           1.00                                   64
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! Calculated with a script.
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+!R1         R2          R3          P1          P2          P3          P4          A        a        Ea       m_eff __    iT      
+!__________ ___________ ___________ ___________ ___________ ___________ ___________ ________ ________ ________ _____ _____ __ _ __
+gH          gH2CO                   gCH3O                                            1.00       0.62     2104.0 1.01        64
+gH          gHDCO                   gCH2DO                                           1.00       0.62     2081.0 1.01        64
+gH          gD2CO                   gCHD2O                                           1.00       0.62     2063.0 1.01        64
+gD          gH2CO                   gCH2DO                                           1.00       0.62     1980.0 2.01        64
+gD          gHDCO                   gCHD2O                                           1.00       0.62     1954.0 2.01        64
+gD          gD2CO                   gCD3O                                            1.00       0.62     1933.0 2.01        64
+gH          gH2CO                   gH2         gHCO                                 1.00       0.42     2959.0 1.01        64
+gH          gHDCO                   gH2         gDCO                                 1.00       0.42     3019.0 1.01        64
+gH          gHDCO                   gHD         gHCO                                 1.00       0.42     3455.0 1.45        64
+gH          gD2CO                   gHD         gDCO                                 1.00       0.42     3520.0 1.45        64
+gD          gH2CO                   gHD         gHCO                                 1.00       0.44     2628.0 1.13        64
+gD          gHDCO                   gHD         gDCO                                 1.00       0.44     2687.0 1.13        64
+gD          gHDCO                   gD2         gHCO                                 1.00       0.44     3129.0 2.01        64
+gD          gD2CO                   gD2         gDCO                                 1.00       0.44     3192.0 2.01        64
+!gH          gCH3OH                  gH2         gCH2OH                               1.00       0.42     3224.0 1.01        64
+!gH          gCD3OD                  gHD         gCD2OD                               1.00       0.42     4219.0 1.59        64
+!gD          gCH3OH                  gHD         gCH2OH                               1.00       0.44     3253.0 1.08        64
+!-----------------------------------------------------------------------
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! Calculated with a script.
+gH2         gOH                     gH2O        gH                                   1.00       1.00     2100.0 0.47        64
+gHD         gOH                     gH2O        gD                                   1.00       1.00     2100.0 0.47        64
+gHD         gOH                     gHDO        gH                                   1.00       1.00     2100.0 0.90        64
+gD2         gOH                     gHDO        gD                                   1.00       1.00     2100.0 0.90        64
+gH2         gOD                     gHDO        gH                                   1.00       1.00     2100.0 0.47        64
+gHD         gOD                     gHDO        gD                                   1.00       1.00     2100.0 0.48        64
+gHD         gOD                     gD2O        gH                                   1.00       1.00     2100.0 0.90        64
+gD2         gOD                     gD2O        gD                                   1.00       1.00     2100.0 0.91        64
+!-----------------------------------------------------------------------
+gH          gHCOO                   gHCOOH                                           1.0                                    64      !AR77
+gD          gHCOO                   gHCOOD                                           1.0                                    64      !AR77
+gH          gDCOO                   gDCOOH                                           1.0                                    64      !AR77
+gD          gDCOO                   gDCOOD                                           1.0                                    64      !AR77
+
+gH          gC                      gCH                                              1.0                                    64      !AR77
+gD          gC                      gCD                                              1.0                                    64      !AR77
+gH          gCH                     gCH2                                             1.0                                    64      !AR77
+gD          gCH                     gCHD                                             1.0                                    64      !AR77
+gH          gCD                     gCHD                                             1.0                                    64      !AR77
+gD          gCD                     gCD2                                             1.0                                    64      !AR77
+
+gH          gCH2                    gCH3                                             1.0                                    64      !AR77
+gD          gCH2                    gCH2D                                            1.0                                    64      !AR77
+gH          gCHD                    gCH2D                                            1.0                                    64      !AR77
+gD          gCHD                    gCHD2                                            1.0                                    64      !AR77
+gH          gCD2                    gCHD2                                            1.0                                    64      !AR77
+gD          gCD2                    gCD3                                             1.0                                    64      !AR77
+
+gH          gCH3                    gCH4                                             1.0                                    64      !AR77
+gD          gCH3                    gCH3D                                            1.0                                    64      !AR77
+gH          gCH2D                   gCH3D                                            1.0                                    64      !AR77
+gD          gCH2D                   gCH2D2                                           1.0                                    64      !AR77
+gH          gCHD2                   gCH2D2                                           1.0                                    64      !AR77
+gD          gCHD2                   gCHD3                                            1.0                                    64      !AR77
+
+gH          gN                      gNH                                              1.0                                    64      !AR77
+gD          gN                      gND                                              1.0                                    64      !AR77
+
+gH          gNH                     gNH2                                             1.0                                    64      !AR77
+gD          gNH                     gNHD                                             1.0                                    64      !AR77
+gH          gND                     gNHD                                             1.0                                    64      !AR77
+gD          gND                     gND2                                             1.0                                    64      !AR77
+
+gH          gNH2                    gNH3                                             1.0                                    64      !AR77
+gD          gNH2                    gNH2D                                            1.0                                    64      !AR77
+gH          gNHD                    gNH2D                                            1.0                                    64      !AR77
+gD          gNHD                    gNHD2                                            1.0                                    64      !AR77
+gH          gND2                    gNHD2                                            1.0                                    64      !AR77
+gD          gND2                    gND3                                             1.0                                    64      !AR77
+
+gH          gS                      gHS                                              1.0                                    64      !HHL92
+gD          gS                      gDS                                              1.0                                    64      !HHL92
+
+gH          gHS                     gH2S                                             1.0                                    64      !HHL92
+gD          gHS                     gHDS                                             1.0                                    64      !HHL92
+gH          gDS                     gHDS                                             1.0                                    64      !HHL92
+gD          gDS                     gD2S                                             1.0                                    64      !HHL92
+
+gH          gH2S                    gHS         gH2                                  1.0        1.0       860.0 1.0         64      !TH82
+gD          gH2S                    gDS         gH2                                  0.5        1.0       860.0 2.0         64      !TH82
+gD          gH2S                    gHS         gHD                                  0.5        1.0       860.0 2.0         64      !TH82
+gH          gHDS                    gHS         gHD                                  0.5        1.0       860.0 1.0         64      !TH82
+gH          gHDS                    gDS         gH2                                  0.5        1.0       860.0 1.0         64      !TH82
+gD          gHDS                    gDS         gHD                                  0.5        1.0       860.0 2.0         64      !TH82
+gD          gHDS                    gHS         gD2                                  0.5        1.0       860.0 2.0         64      !TH82
+gH          gD2S                    gHS         gD2                                  0.5        1.0       860.0 1.0         64      !TH82
+gH          gD2S                    gDS         gHD                                  0.5        1.0       860.0 1.0         64      !TH82
+gD          gD2S                    gDS         gD2                                  1.0        1.0       860.0 2.0         64      !TH82
+
+gH          gCN                     gHCN                                             1.0                        1.0         64      !AR77
+gD          gCN                     gDCN                                             1.0                        2.0         64      !AR77
+gH          gNO                     gHNO                                             1.0                        1.0         64      !AR77
+gD          gNO                     gDNO                                             1.0                        2.0         64      !AR77
+
+gO          gO                      gO2                                              1.0                                    63      !AR77
+gO          gO2                     gO3                                              1.0                                    64      !ABet04
+gO          gCO                     gCO2                                             1.0        1.0      1580.010.2         64      !GMet08
+
+gO          gOH                     gO2H                                             1.0                                    64      !HHL92
+gO          gOD                     gO2D                                             1.0                                    64      !HHL92
+
+gO          gHCO                    gHCOO                                            0.5                                    64      !GMet08
+gO          gDCO                    gDCOO                                            0.5                                    64      !GMet08
+gO          gHCO                    gCO2        gH                                   0.5                                    64      !GMet08
+gO          gDCO                    gCO2        gD                                   0.5                                    64      !GMet08
+
+gO          gN                      gNO                                              1.0                                    64      !AR77
+gO          gNO                     gNO2                                             1.0                                    64      !AR77
+gO          gCN                     gOCN                                             1.0                                    64      !AR77
+gO          gNH                     gHNO                                             1.0                                    64      !HHL92
+gO          gND                     gDNO                                             1.0                                    64      !HHL92
+
+gC          gO                      gCO                                              1.0                                    64      !HHL92
+gC          gO2                     gCO         gO                                   1.0                                    64      !HHL92
+gC          gN                      gCN                                              1.0                                    64      !AR77
+gC          gNH                     gHNC                                             1.0                                    64      !HHL92
+gC          gND                     gDNC                                             1.0                                    64      !HHL92
+gC          gNH2                    gHNC        gH                                   1.0                                    64      !HHL92
+gC          gNHD                    gDNC        gH                                   0.5                                    64      !HHL92
+gC          gNHD                    gHNC        gD                                   0.5                                    64      !HHL92
+gC          gND2                    gDNC        gD                                   1.0                                    64      !HHL92
+
+gN          gN                      gN2                                              1.0                                    63      !AR77
+gN          gCH                     gHCN                                             1.0                                    64      !HHL92
+gN          gCD                     gDCN                                             1.0                                    64      !HHL92
+
+gOH         gCO                     gCO2        gH                                   1.0        1.0        80.010.6         64      !Canonical
+gOD         gCO                     gCO2        gD                                   1.0        1.0        80.011.0         64      !Canonical
+
+gOH         gOH                     gH2O2                                            1.0                                    63      !HHL92
+gOD         gOH                     gHDO2                                            1.0                                    64      !HHL92
+
+gO          gCH2                    gH2CO                                            1.0                                    64      !HHL92
+gO          gCHD                    gHDCO                                            1.0                                    64      !HHL92
+gO          gCD2                    gD2CO                                            1.0                                    64      !HHL92
+
+!----------------------------------------------------------------------
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! 2011-06-05 Sun 20:12:54
+!   Chemical desorption.
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+!----------------------------------------------------------------------
+!
+!
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! 2011-07-09 Sat 18:48:51
+! Photodissociation reactions on the grain
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+gH2                                 gH          gH                                   1.30E-18                      10 41000 71 C CP
+gHD                                 gH          gD                                   1.30E-18                      10 41000 71 C CP
+gD2                                 gD          gD                                   1.30E-18                      10 41000 71 C CP
+
+gCH                                 gC          gH                                   1.30E-17             365.0    10 41000 72 C CR
+gCD                                 gC          gD                                   1.30E-17             365.0    10 41000 72 C CR
+
+gCH2                                gCH         gH                                   1.30E-17             250.0    10 41000 72 A CR
+gCHD                                gCH         gD                                   0.65E-17             250.0    10 41000 72 A CR
+gCHD                                gCD         gH                                   0.65E-17             250.0    10 41000 72 A CR
+
+gCH3                                gCH2        gH                                   1.30E-17             250.0    10 41000 72 A CR
+gCH2D                               gCH2        gD                                   0.43E-17             250.0    10 41000 72 A CR
+gCH2D                               gCHD        gH                                   0.87E-17             250.0    10 41000 72 A CR
+gCH3                                gCH         gH2                                  1.30E-17             250.0    10 41000 72 A CR
+gCH2D                               gCH         gHD                                  0.65E-17             250.0    10 41000 72 A CR
+gCH2D                               gCD         gH2                                  0.65E-17             250.0    10 41000 72 A CR
+
+gCH4                                gCH2        gH2                                  1.30E-17            1169.5    10 41000 72 C CR
+gCH3D                               gCH2        gHD                                  0.98E-17            1169.5    10 41000 72 C CR
+gCH3D                               gCHD        gH2                                  0.32E-17            1169.5    10 41000 72 C CR
+gCH2D2                              gCH2        gD2                                  0.65E-17            1169.5    10 41000 72 C CR
+gCH2D2                              gCHD        gHD                                  0.65E-17            1169.5    10 41000 72 C CR
+gCHD3                               gCHD        gD2                                  0.98E-17            1169.5    10 41000 72 C CR
+gCHD3                               gCD2        gHD                                  0.32E-17            1169.5    10 41000 72 C CR
+
+gNH                                 gN          gH                                   1.30E-17             250.0    10 41000 72 A CR
+gND                                 gN          gD                                   1.30E-17             250.0    10 41000 72 A CR
+
+gNH2                                gNH         gH                                   1.30E-17              40.0    10 41000 72 C CR
+gNHD                                gNH         gD                                   0.65E-17              40.0    10 41000 72 C CR
+gNHD                                gND         gH                                   0.65E-17              40.0    10 41000 72 C CR
+gND2                                gND         gD                                   1.30E-17              40.0    10 41000 72 C CR
+
+gNH3                                gNH         gH2                                  1.30E-17             270.5    10 41000 72 C CR
+gNH2D                               gNH         gHD                                  0.87E-17             270.5    10 41000 72 C CR
+gNH2D                               gND         gH2                                  0.43E-17             270.5    10 41000 72 C CR
+gNHD2                               gND         gHD                                  0.87E-17             270.5    10 41000 72 C CR
+gNHD2                               gNH         gD2                                  0.43E-17             270.5    10 41000 72 C CR
+gND3                                gND         gD2                                  1.30E-17             270.5    10 41000 72 C CR
+
+gNH3                                gNH2        gH                                   1.30E-17             657.5    10 41000 72 C CR
+gNH2D                               gNH2        gD                                   0.43E-17             657.5    10 41000 72 C CR
+gNH2D                               gNHD        gH                                   0.87E-17             657.5    10 41000 72 C CR
+gNHD2                               gNHD        gD                                   0.87E-17             657.5    10 41000 72 C CR
+gNHD2                               gND2        gH                                   0.43E-17             657.5    10 41000 72 C CR
+
+gOH                                 gO          gH                                   1.30E-17             254.5    10 41000 72 C CR
+gOD                                 gO          gD                                   1.30E-17             254.5    10 41000 72 C CR
+
+gH2O                                gOH         gH                                   1.30E-17             485.5    10 41000 72 C CR
+gHDO                                gOD         gH                                   0.65E-17             485.5    10 41000 72 C CR
+gHDO                                gOH         gD                                   0.65E-17             485.5    10 41000 72 C CR
+
+gH2O2                               gOH         gOH                                  1.30E-17             750.0    10 41000 72 A CR
+gHDO2                               gOH         gOD                                  1.30E-17             750.0    10 41000 72 A CR
+
+gHCN                                gCN         gH                                   1.30E-17            1557.0    10 41000 72 C CR
+gDCN                                gCN         gD                                   1.30E-17            1557.0    10 41000 72 C CR
+gHNC                                gCN         gH                                   1.30E-17            1500.0    10 41000 72 C CR
+gDNC                                gCN         gD                                   1.30E-17            1500.0    10 41000 72 C CR
+
+gHCO                                gCO         gH                                   1.30E-17             210.5    10 41000 72 C CR
+gDCO                                gCO         gD                                   1.30E-17             210.5    10 41000 72 C CR
+
+gH2CO                               gCO         gH2                                  1.30E-17             665.0    10 41000 72 C CR
+gHDCO                               gCO         gHD                                  1.30E-17             665.0    10 41000 72 C CR
+gD2CO                               gCO         gD2                                  1.30E-17             665.0    10 41000 72 C CR
+
+gH2CO                               gHCO        gH                                   1.30E-17             665.0    10 41000 72 C CR ! New
+gHDCO                               gHCO        gD                                   0.65E-17             665.0    10 41000 72 C CR ! New
+gHDCO                               gDCO        gH                                   0.65E-17             665.0    10 41000 72 C CR ! New
+
+gCH3OH                              gOH         gCH3                                 1.30E-17             752.0    10 41000 72 C CR
+gCH2DOH                             gOH         gCH2D                                1.30E-17             752.0    10 41000 72 C CR
+gCHD2OH                             gOH         gCHD2                                1.30E-17             752.0    10 41000 72 C CR
+gCD3OH                              gOH         gCD3                                 1.30E-17             752.0    10 41000 72 C CR
+gCH3OD                              gOD         gCH3                                 1.30E-17             752.0    10 41000 72 C CR
+gCH2DOD                             gOD         gCH2D                                1.30E-17             752.0    10 41000 72 C CR
+gCHD2OD                             gOD         gCHD2                                1.30E-17             752.0    10 41000 72 C CR
+gCD3OD                              gOD         gCD3                                 1.30E-17             752.0    10 41000 72 C CR
+
+gCH3OH                              gCH3O       gH                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCH2DOH                             gCH2DO      gH                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCHD2OH                             gCHD2O      gH                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCD3OH                              gCD3O       gH                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCH3OD                              gCH3O       gD                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCH2DOD                             gCH2DO      gD                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCHD2OD                             gCHD2O      gD                                   1.30E-17             396.0    10 41000 72 C CR ! New
+gCD3OD                              gCD3O       gD                                   1.30E-17             396.0    10 41000 72 C CR ! New
+
+gHNO                                gNO         gH                                   1.30E-17             500.0    10 41000 72 A CR
+gDNO                                gNO         gD                                   1.30E-17             500.0    10 41000 72 A CR
+
+gHS                                 gS          gH                                   1.30E-17             250.0    10 41000 72 A CR
+gDS                                 gS          gD                                   1.30E-17             250.0    10 41000 72 A CR
+gH2S                                gS          gH2                                  1.30E-17            2577.0    10 41000 72 C CR
+gHDS                                gS          gHD                                  1.30E-17            2577.0    10 41000 72 C CR
+gD2S                                gS          gD2                                  1.30E-17            2577.0    10 41000 72 C CR
+
+gHCOOH                              gHCO        gOH                                  1.30E-17             124.5    10 41000 72 C CR
+gDCOOH                              gDCO        gOH                                  1.30E-17             124.5    10 41000 72 C CR
+gHCOOD                              gHCO        gOD                                  1.30E-17             124.5    10 41000 72 C CR
+gDCOOD                              gDCO        gOD                                  1.30E-17             124.5    10 41000 72 C CR
+
+gCO                                 gO          gC                                   1.30E-17   1.17      105.0    10 41000 72 C CR
+gN2                                 gN          gN                                   1.30E-17              25.0    10 41000 72 A CR
+gCN                                 gN          gC                                   1.30E-17            5290.0    10 41000 72 C CR
+gNO                                 gO          gN                                   1.30E-17             231.0    10 41000 72 C CR
+gO2                                 gO          gO                                   1.30E-17             375.5    10 41000 72 C CR
+gOCN                                gCN         gO                                   1.30E-17             750.0    10 41000 72 A CR
+gCO2                                gCO         gO                                   1.30E-17             854.0    10 41000 72 C CR
+gNO2                                gNO         gO                                   1.30E-17             750.0    10 41000 72 A CR

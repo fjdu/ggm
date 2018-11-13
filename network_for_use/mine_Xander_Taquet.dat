@@ -1,0 +1,113 @@
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+gH          gO                      gOH                                              1.0                                    
+gD          gO                      gOD                                              1.0                                    
+gH          gO2                     gO2H                                             1.0                                    
+gD          gO2                     gO2D                                             1.0                                    
+
+gH          gO3                     gO2         gOH                                  1.0        0.5       450.0 1.0         
+gD          gO3                     gO2         gOD                                  1.0        0.5       450.0 2.0         
+gH          gOH                     gH2O                                             1.0                                    
+gD          gOH                     gHDO                                             1.0                                    
+gH          gOD                     gHDO                                             1.0                                    
+gD          gOD                     gD2O                                             1.0                                    
+
+gH          gO2H                    gH2O2                                            0.38                                   
+gD          gO2H                    gHDO2                                            0.38                                   
+gH          gO2D                    gHDO2                                            0.38                                   
+gD          gO2D                    gD2O2                                            0.38                                   
+
+gH          gO2H                    gOH         gOH                                  0.62                                   
+gD          gO2H                    gOH         gOD                                  0.62                                   
+gH          gO2D                    gOH         gOD                                  0.62                                   
+gD          gO2D                    gOD         gOD                                  0.62                                   
+
+gH          gH2O2                   gH2O        gOH                                  1.0        0.5       200.0 1.0         
+gD          gH2O2                   gHDO        gOH                                  1.0        0.5       200.0 2.0         
+
+gH          gHDO2                   gHDO        gOH                                  0.5        0.5       200.0 1.0         
+gH          gHDO2                   gH2O        gOD                                  0.5        0.5       200.0 1.0         
+gD          gHDO2                   gHDO        gOD                                  0.5        0.5       200.0 2.0         
+gD          gHDO2                   gD2O        gOH                                  0.5        0.5       200.0 2.0         
+
+gH          gD2O2                   gHDO        gOD                                  1.0        0.5       200.0 1.0         
+gD          gD2O2                   gD2O        gOD                                  1.0        0.5       200.0 2.0         
+gH          gCO                     gHCO                                             1.0        0.75     2740.0 1.0         
+gD          gCO                     gDCO                                             1.0        0.75     2579.0 2.0         
+gH          gHCO                    gH2CO                                            1.0                                    
+gD          gHCO                    gHDCO                                            1.0                                    
+gH          gDCO                    gHDCO                                            1.0                                    
+gD          gDCO                    gD2CO                                            1.0                                    
+gH          gCH3O                   gCH3OH                                           1.00                                   
+gH          gCH2DO                  gCH2DOH                                          1.00                                   
+gH          gCHD2O                  gCHD2OH                                          1.00                                   
+gH          gCD3O                   gCD3OH                                           1.00                                   
+gD          gCH3O                   gCH3OD                                           1.00                                   
+gD          gCH2DO                  gCH2DOD                                          1.00                                   
+gD          gCHD2O                  gCHD2OD                                          1.00                                   
+gD          gCD3O                   gCD3OD                                           1.00                                   
+gH          gH2CO                   gCH3O                                            1.00       0.89     2104.0 1.01        
+gH          gHDCO                   gCH2DO                                           1.00       0.89     2081.0 1.01        
+gH          gD2CO                   gCHD2O                                           1.00       0.89     2063.0 1.01        
+gD          gH2CO                   gCH2DO                                           1.00       0.89     1980.0 2.01        
+gD          gHDCO                   gCHD2O                                           1.00       0.89     1954.0 2.01        
+gD          gD2CO                   gCD3O                                            1.00       0.89     1933.0 2.01        
+gH          gH2CO                   gH2         gHCO                                 1.00       0.60     2959.0 1.01        
+gH          gHDCO                   gH2         gDCO                                 1.00       0.60     3019.0 1.01        
+gH          gHDCO                   gHD         gHCO                                 1.00       0.60     3455.0 1.45        
+gH          gD2CO                   gHD         gDCO                                 1.00       0.60     3520.0 1.45        
+gD          gH2CO                   gHD         gHCO                                 1.00       0.68     2628.0 1.13        
+gD          gHDCO                   gHD         gDCO                                 1.00       0.68     2687.0 1.13        
+gD          gHDCO                   gD2         gHCO                                 1.00       0.68     3129.0 2.01        
+gD          gD2CO                   gD2         gDCO                                 1.00       0.68     3192.0 2.01        
+gH          gCH3OH                  gH2         gCH2OH                               1.00       0.60     3224.0 1.01        
+gH          gCH2DOH                 gH2         gCHDOH                               1.00       0.60     3324.0 1.01        
+gH          gCH2DOH                 gHD         gCH2OH                               1.00       0.60     4024.0 1.59        
+gH          gCHD2OH                 gH2         gCD2OH                               1.00       0.60     3424.0 1.01        
+gH          gCHD2OH                 gHD         gCHDOH                               1.00       0.60     4124.0 1.59        
+gH          gCD3OH                  gHD         gCD2OH                               1.00       0.60     4219.0 1.59        
+
+gD          gCH3OH                  gHD         gCH2OH                               1.00       0.68     3224.0 1.08        
+gD          gCH2DOH                 gHD         gCHDOH                               1.00       0.68     3324.0 1.08        
+gD          gCH2DOH                 gD2         gCH2OH                               1.00       0.68     4024.0 2.01        
+gD          gCHD2OH                 gHD         gCD2OH                               1.00       0.68     3424.0 1.08        
+gD          gCHD2OH                 gD2         gCHDOH                               1.00       0.68     4124.0 2.01        
+gD          gCD3OH                  gD2         gCD2OH                               1.00       0.68     4219.0 2.01        
+
+gH          gCH3OD                  gH2         gCH2OD                               1.00       0.60     3224.0 1.01        
+gH          gCH2DOD                 gH2         gCHDOD                               1.00       0.60     3324.0 1.01        
+gH          gCH2DOD                 gHD         gCH2OD                               1.00       0.60     4024.0 1.59        
+gH          gCHD2OD                 gH2         gCD2OD                               1.00       0.60     3424.0 1.01        
+gH          gCHD2OD                 gHD         gCHDOD                               1.00       0.60     4124.0 1.59        
+gH          gCD3OD                  gHD         gCD2OD                               1.00       0.60     4219.0 1.59        
+
+gD          gCH3OD                  gHD         gCH2OD                               1.00       0.68     3253.0 1.08        
+gD          gCH2DOD                 gHD         gCHDOD                               1.00       0.68     3324.0 1.08        
+gD          gCH2DOD                 gD2         gCH2OD                               1.00       0.68     4024.0 2.01        
+gD          gCHD2OD                 gHD         gCD2OD                               1.00       0.68     3424.0 1.08        
+gD          gCHD2OD                 gD2         gCHDOD                               1.00       0.68     4124.0 2.01        
+gD          gCD3OD                  gD2         gCD2OD                               1.00       0.68     4219.0 2.01        
+gH          gCH2OH                  gCH3OH                                           1.00                                   
+gH          gCHDOH                  gCH2DOH                                          1.00                                   
+gH          gCD2OH                  gCHD2OH                                          1.00                                   
+
+gD          gCH2OH                  gCH2DOH                                          1.00                                   
+gD          gCHDOH                  gCHD2OH                                          1.00                                   
+gD          gCD2OH                  gCD3OH                                           1.00                                   
+
+gH          gCH2OD                  gCH3OD                                           1.00                                   
+gH          gCHDOD                  gCH2DOD                                          1.00                                   
+gH          gCD2OD                  gCHD2OD                                          1.00                                   
+
+gD          gCH2OD                  gCH2DOD                                          1.00                                   
+gD          gCHDOD                  gCHD2OD                                          1.00                                   
+gD          gCD2OD                  gCD3OD                                           1.00                                   
+!23456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC123456789ABC12345678912345678912345678912345612345612312123
+gH2         gOH                     gH2O        gH                                   1.00       0.30     2100.0 1.00        64
+gHD         gOH                     gH2O        gD                                   1.00       0.30     2100.0 1.00        64
+gHD         gOH                     gHDO        gH                                   1.00       0.30     2100.0 2.00        64
+gD2         gOH                     gHDO        gD                                   1.00       0.30     2100.0 2.00        64
+
+gH2         gOD                     gHDO        gH                                   1.00       0.30     2100.0 1.00        64
+gHD         gOD                     gHDO        gD                                   1.00       0.30     2100.0 1.00        64
+gHD         gOD                     gD2O        gH                                   1.00       0.30     2100.0 2.00        64
+gD2         gOD                     gD2O        gD                                   1.00       0.30     2100.0 2.00        64

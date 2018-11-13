@@ -1,0 +1,48 @@
+! Usage
+! Just modify this file and run ./a.out again.
+! The default name of this file is config.dat.
+! You can use another name, e.g., XXX.dat, then
+! run the program like this: ./a.out XXX.dat
+!
+&PhysicalParameters
+Av = 15.0D0 ! NHtotal / 1.6D21
+omega_Albedo = 0.5D0
+rateCosIon = 3.0D-17
+rateHHH2 = 3.003953e-18 !3.002221e-18 !
+!stickCoeffHH = 1D0
+!stickCoeffChargeGrain = 0.8D0 !0.5D0
+ratioDustGasMass = 1.3D-2
+!ratioHDust = 2.857143E11 ! 1D0/3.5D-12
+GrainDensity = 2.0D0 ! g/cm^3
+GrainRadius = 1.0D-1 ! micron !for gas-to-dust ratio, coulomb correction, rate correction
+GrainRadiusBase = 0.02 !0.0202 ! micron ! for rate correction
+aGrainMin = 1.0D-5 ! 1D-6 !cm ! only used for calculating the H+H->H2 rate
+aGrainMax = 1.0D-5 ! 3D-5 !cm ! only used for calculating the H+H->H2 rate
+timeUnit = 1.0D2 ! in years
+nSpecies_Est = 512
+rateThreshold = 0.0D0 !1D-120
+/
+&ODEParameters
+nIteration = 650
+RTOL = 1.0D-6 ! relative tolerance
+ATOL = 1.0D-90 ! absolute tolerance
+/
+&Paths
+path = "./"
+fReactions = "rate06_dipole_reformated_again.dat" !"rate06_nondipole_reformated.dat" ! input
+fInitialCondition = "initial_condition_2.dat"
+fSaveFinalResult = "final_abundance_20120328.txt" ! output
+/
+&ReduceParameters
+nPhyPar = 9
+Temperature_s = 10  10  10  15  15  15  20  20  20
+n_H_s =         1E4 1E5 1E6 1E4 1E5 1E6 1E4 1E5 1E6 
+file_imp_species_in = "species_we_care_about.dat"
+file_imp_reacs_out = "rate06_dipole_reduced_20120328.dat"
+n_time_care = 7
+time_care =  1E1  1E2  1E3  1E4  1E5  1E6  1E7
+n_recursion = 64
+ratio_tobe_imp = 0.95 ! The larger this value, the more reactions will be included.
+allow_dead_end = .FALSE.
+max_abundance_needed = 1E-19
+/
