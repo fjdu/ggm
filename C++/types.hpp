@@ -229,7 +229,7 @@ class Reaction {
 
 
 typedef std::vector<Reaction> Reactions;
-typedef std::set<int> ReactionTypes;
+typedef std::map<int, int> ReactionTypes;
 typedef std::map<std::string, DTP_FLOAT> Elements;
 
 
@@ -238,20 +238,27 @@ class Species {
     std::map<std::string, int> name2idx;
     std::map<int, std::string> idx2name;
     std::map<int, std::map<std::string, int> > elementsSpecies;
-    std::map<int, DTP_FLOAT> massSpecies;
-    std::set<std::string> gasSpecies, surfaceSpecies, mantleSpecies;
-    std::map<int, DTP_FLOAT> enthalpies, vibFreqs;
+    std::map<int, DTP_FLOAT> massSpecies, enthalpies,
+                             vibFreqs, diffBarriers, quantMobilities;
+    std::set<int> gasSpecies, surfaceSpecies, mantleSpecies;
     std::vector<DTP_FLOAT> abundances;
     DTP_Y y;
 };
 
 
+class OtherData {
+  public:
+    DTP_FLOAT t_calc, k_eva_tot, k_ads_tot, mant_tot, surf_tot;
+    Reactions ads_reactions, eva_reactions;
+};
+
+
 typedef DTP_FLOAT (*RateCalculator)(
     const DTP_FLOAT&, const DTP_Y&, const Reaction&,
-    const PhyParams&, const Species&);
+    const PhyParams&, const Species&, TYPES::OtherData&);
 typedef std::vector<DTP_FLOAT> (*dRdyCalculator)(
     const DTP_FLOAT&, const DTP_Y&, const Reaction&,
-    const PhyParams&, const Species&);
+    const PhyParams&, const Species&, TYPES::OtherData&);
 
 
 typedef std::map<int, RateCalculator> RateCalculators;
@@ -266,6 +273,7 @@ class User_data {
     Species* species;
     RateCalculators* rate_calculators;
     dRdyCalculators* drdy_calculators;
+    OtherData* other_data;
 
     User_data() {
       physical_params = new PhyParams();
@@ -274,6 +282,7 @@ class User_data {
       species = new Species();
       rate_calculators = new RateCalculators();
       drdy_calculators = new dRdyCalculators();
+      other_data = new OtherData();
     }
     ~User_data() {
       // delete stuff
@@ -283,6 +292,7 @@ class User_data {
       delete species;
       delete rate_calculators;
       delete drdy_calculators;
+      delete other_data;
     }
   private:
 };

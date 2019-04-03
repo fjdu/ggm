@@ -25,21 +25,27 @@ int main(int argc, char **argv)
       TYPES::phyGetterDict[p.first](*user_data.physical_params) << " " << std::endl;
   }
 
-  LOGIS::load_reactions("/Users/fjdu/_c/DeuterationGasGrain/output_1/rate06_dipole_reduced_20120513_50K_com_red_com.dat", &user_data);
+  LOGIS::load_reactions("reactions_test.dat", &user_data);
   std::cout << "Number of reactions: "
             << user_data.reactions->size() << std::endl;
   std::cout << "Number of species: "
             << user_data.species->name2idx.size() << std::endl;
   std::cout << "Number of reaction types: "
             << user_data.reaction_types->size() << std::endl;
-  //for (auto const& i: *(user_data.reaction_types)) {
-  //  std::cout << i << " ";
-  //}
-  //std::cout << std::endl;
+  for (auto const& i: *(user_data.reaction_types)) {
+    std::cout << i.first << ": " << i.second << "\n";
+  }
+  LOGIS::assort_reactions(*(user_data.reactions), user_data.other_data);
+  std::cout << "Number of adsorption reactions: "
+            << user_data.other_data->ads_reactions.size() << std::endl;
+  std::cout << "Number of evaporation reactions: "
+            << user_data.other_data->eva_reactions.size() << std::endl;
 
   LOGIS::assignElementsToSpecies(*(user_data.species), CONST::element_masses);
   LOGIS::calculateSpeciesMasses(*(user_data.species), CONST::element_masses);
   LOGIS::calculateSpeciesVibFreqs(*(user_data.species), *(user_data.reactions));
+  LOGIS::calculateSpeciesDiffBarriers(*(user_data.species), *(user_data.reactions));
+  LOGIS::calculateSpeciesQuantumMobilities(*(user_data.species), *(user_data.reactions));
   //for (auto const& s: user_data.species->name2idx) {
   //  std::cout << s.first << " ";
   //  auto eleDict = user_data.species->elementsSpecies[s.second];
@@ -65,11 +71,11 @@ int main(int argc, char **argv)
                              user_data.species->abundances.end(),
                              [](TYPES::DTP_FLOAT v){return v>1e-40;})
             << std::endl;
-  //for (auto const& s: user_data.species->idx2name) {
-  //  if (user_data.species->abundances[s.first] > 1.0e-40) {
-  //    std::cout << s.second << " " << user_data.species->abundances[s.first] << std::endl;
-  //  }
-  //}
+  for (auto const& s: user_data.species->idx2name) {
+    if (user_data.species->abundances[s.first] > 1.0e-40) {
+      std::cout << s.second << " " << user_data.species->abundances[s.first] << std::endl;
+    }
+  }
 
   LOGIS::loadSpeciesEnthalpies(*user_data.species, "Species_enthalpy.dat");
   std::cout << "Number of species with enthalpies: "
@@ -79,12 +85,26 @@ int main(int argc, char **argv)
   //}
 
   CALC_RATE::assignReactionHandlers(user_data);
+  for (auto const& i: *(user_data.reaction_types)) {
+    if (user_data.rate_calculators->find(i.first) ==
+        user_data.rate_calculators->end()) {
+      std::cout << "Reaction type " << i.first << " has no handler!" << std::endl;
+    }
+  }
 
   TYPES::DTP_Y y = N_VClone(user_data.species->y);
   RATE_EQ::Updater_RE updater_re;
   updater_re.set_user_data(&user_data);
   updater_re.initialize_solver(0.0, user_data.species->y);
-  updater_re.update(0.0, 1e7, y);
+  //for (int i=0; i<user_data.species->name2idx.size(); ++i) {
+  //  std::cout << user_data.species->idx2name[i] << " " << NV_Ith_S(user_data.species->y, i) << std::endl;
+  //}
+  updater_re.update(0.0, 1e-2, y);
+  for (int i=0; i<user_data.species->name2idx.size(); ++i) {
+    if (isnan(NV_Ith_S(user_data.species->y, i))) {
+      std::cout << user_data.species->idx2name[i] << " " << NV_Ith_S(user_data.species->y, i) << std::endl;
+    }
+  }
 
 //  updater_re.
 //    set_reactions().

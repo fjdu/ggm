@@ -34,7 +34,7 @@ int load_reactions(const std::string& fname,
 
   TYPES::Species& species = *user_data->species;
   TYPES::Reactions& reactions = *user_data->reactions;
-  std::set<int>& reaction_types = *user_data->reaction_types;
+  TYPES::ReactionTypes& reaction_types = *user_data->reaction_types;
 
   if (inputFile.good()) {
     while (std::getline(inputFile, line)) {
@@ -99,7 +99,11 @@ int load_reactions(const std::string& fname,
       int iType = iT + nT * lenT;
       std::string tmp = line.substr(iType, lenType);
       reaction.itype = std::stoi(tmp);
-      reaction_types.insert(reaction.itype);
+      if (reaction_types.find(reaction.itype) == reaction_types.end()) {
+        reaction_types[reaction.itype] = 1;
+      } else {
+        reaction_types[reaction.itype] += 1;
+      }
 
       reactions.push_back(reaction);
 
@@ -122,6 +126,18 @@ int load_reactions(const std::string& fname,
   inputFile.close();
 
   return 0;
+}
+
+
+void assort_reactions(const TYPES::Reactions& reactions, TYPES::OtherData *m)
+{
+  for (auto const& r: reactions) {
+    if (r.itype == 61) {
+      m->ads_reactions.push_back(r);
+    } else if (r.itype == 62) {
+      m->eva_reactions.push_back(r);
+    }
+  }
 }
 
 
@@ -163,7 +179,7 @@ std::map<std::string, int> assignElementsToOneSpecies(
 }
 
 
-int assignElementsToSpecies(TYPES::Species& species, TYPES::Elements& elements) {
+int assignElementsToSpecies(TYPES::Species& species, const TYPES::Elements& elements) {
   for (auto const& s: species.name2idx) {
     species.elementsSpecies[s.second] = assignElementsToOneSpecies(s.first, elements);
   }
@@ -174,23 +190,23 @@ int assignElementsToSpecies(TYPES::Species& species, TYPES::Elements& elements) 
 int classifySpeciesByPhase(TYPES::Species& species) {
   for (auto const& s: species.name2idx) {
     if (s.first[0] == 'm') {
-      species.mantleSpecies.insert(s.first);
+      species.mantleSpecies.insert(s.second);
     } else if (s.first[0] == 'g') {
-      species.surfaceSpecies.insert(s.first);
+      species.surfaceSpecies.insert(s.second);
     } else {
-      species.gasSpecies.insert(s.first);
+      species.gasSpecies.insert(s.second);
     }
   }
   return 0;
 }
 
 
-int calculateSpeciesMasses(TYPES::Species& species, TYPES::Elements& elements) {
+int calculateSpeciesMasses(TYPES::Species& species, const TYPES::Elements& elements) {
   for (auto const& s: species.name2idx) {
     species.massSpecies[s.second] = 0.0;
     auto const& eleDict = species.elementsSpecies[s.second];
     for (auto const& e: eleDict) {
-      species.massSpecies[s.second] += elements[e.first] * ((double)e.second);
+      species.massSpecies[s.second] += elements.at(e.first) * ((double)e.second);
     }
   }
   return 0;
@@ -205,6 +221,59 @@ int calculateSpeciesVibFreqs(TYPES::Species& species, TYPES::Reactions& reaction
            * CONST::phy_kBoltzmann_CGS * r.abc[2]
            / (CONST::PI * CONST::PI)
            / (CONST::phy_mProton_CGS * species.massSpecies[r.idxReactants[0]]));
+    }
+  }
+  for (auto const& r: reactions) {
+    if ((r.itype == 63) || (r.itype == 64)) {
+      for (auto const& i: r.idxReactants) {
+        if (species.vibFreqs.find(i) == species.vibFreqs.end()) {
+          species.vibFreqs[i] = CONST::phy_vibFreqDefault;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
+
+int calculateSpeciesDiffBarriers(TYPES::Species& species, TYPES::Reactions& reactions) {
+  for (auto const& r: reactions) {
+    if (r.itype == 62) {
+      species.diffBarriers[r.idxReactants[0]] = r.abc[2] * CONST::phy_Diff2DesorRatio;
+    }
+  }
+  for (auto const& r: reactions) {
+    if ((r.itype == 63) || (r.itype == 64)) {
+      for (auto const& i: r.idxReactants) {
+        if (species.diffBarriers.find(i) == species.diffBarriers.end()) {
+          species.diffBarriers[i] = CONST::phy_DiffBarrierDefault;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
+
+int calculateSpeciesQuantumMobilities(TYPES::Species& species, TYPES::Reactions& reactions) {
+  for (auto const& r: reactions) {
+    if (r.itype == 62) {
+      species.quantMobilities[r.idxReactants[0]] =
+          species.vibFreqs[r.idxReactants[0]] *
+          exp(-2.0 * CONST::phy_DiffBarrierWidth_CGS
+             / CONST::phy_hbarPlanck_CGS
+             * sqrt(2.0 * species.massSpecies[r.idxReactants[0]] * CONST::phy_mProton_CGS
+                  * CONST::phy_kBoltzmann_CGS
+                  * species.diffBarriers[r.idxReactants[0]]));
+    }
+  }
+  for (auto const& r: reactions) {
+    if ((r.itype == 63) || (r.itype == 64)) {
+      for (auto const& i: r.idxReactants) {
+        if (species.quantMobilities.find(i) == species.quantMobilities.end()) {
+          species.quantMobilities[i] = 0.0;
+        }
+      }
     }
   }
   return 0;

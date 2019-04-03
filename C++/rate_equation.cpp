@@ -15,16 +15,14 @@ static int f(realtype t, N_Vector y, N_Vector ydot, void *user_data)
   data = (TYPES::User_data*) user_data;
 
   for (auto const& reaction: *data->reactions) {
-    if ((reaction.itype == 63) || (reaction.itype == 64)
-     || (reaction.itype == 65) || (reaction.itype == 66)
-     || (reaction.itype == 67)) {
+    if ((reaction.itype == 67)) {
       continue;
     }
     //std::cout << "reaction.itype: " << reaction.itype << std::endl;
     //std::cout << "t = " << t << std::endl;
     //std::cout << "y[0] = " << NV_Ith_S(y, 0) << std::endl;
     TYPES::DTP_FLOAT r = ((*(data->rate_calculators))[reaction.itype])(t, y,
-        reaction, *(data->physical_params), *(data->species));
+        reaction, *(data->physical_params), *(data->species), *(data->other_data));
     //for (auto const& i: reaction.idxReactants) {
     //  std::cout << data->species->idx2name[i] << " ";
     //}
@@ -57,13 +55,11 @@ static int jtv(N_Vector v, N_Vector Jv, realtype t,
   }
 
   for (auto const& reaction: *data->reactions) {
-    if ((reaction.itype == 63) || (reaction.itype == 64)
-     || (reaction.itype == 65) || (reaction.itype == 66)
-     || (reaction.itype == 67)) {
+    if ((reaction.itype == 67)) {
       continue;
     }
     std::vector<TYPES::DTP_FLOAT> drdy = ((*(data->drdy_calculators))[reaction.itype])(
-      t, y, reaction, *(data->physical_params), *(data->species));
+      t, y, reaction, *(data->physical_params), *(data->species), *(data->other_data));
 
     TYPES::DTP_FLOAT jdotv = 0.0;
     for (int i=0; i<reaction.idxReactants.size(); ++i) {
