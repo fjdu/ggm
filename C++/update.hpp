@@ -10,7 +10,7 @@ namespace Update {
 
 class Updater {
   public:
-    virtual int update(
+    virtual TYPES::DTP_FLOAT update(
         const TYPES::DTP_FLOAT t,
         const TYPES::DTP_FLOAT dt,
         TYPES::DTP_Y y) = 0;

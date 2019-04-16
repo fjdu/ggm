@@ -9,14 +9,8 @@
 #include <regex>
 #include <set>
 #include "types.hpp"
-#include "utils.cpp"
+#include "utils.hpp"
 #include "math.h"
-
-void load_enthalpies();
-void load_initial_condition();
-void load_config();
-void record();
-void solve();
 
 namespace LOGIS {
 
@@ -309,16 +303,12 @@ int loadInitialAbundances(TYPES::Species& species, std::string fname) {
           TYPES::DTP_FLOAT val = std::stod(matches.str(2));
           species.abundances[species.name2idx[name]] = val;
         } else {
-          std::cout << "Unrecognized line: " << line << std::endl;
+          std::cout << "Unrecognized row: " << line << std::endl;
         }
       }
     }
   } else {
     std::cout << "Error reading file: " << fname << std::endl;
-  }
-  species.y = N_VNew_Serial(species.abundances.size());
-  for (int i=0; i<species.abundances.size(); ++i) {
-    NV_Ith_S(species.y, i) = species.abundances[i];
   }
   return 0;
 }

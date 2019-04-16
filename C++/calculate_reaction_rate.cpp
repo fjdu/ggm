@@ -1,11 +1,9 @@
-#ifndef CALC_RATE_H
-#define CALC_RATE_H
-
 #include "math.h"
 #include <algorithm>
 #include "types.hpp"
 #include "constants.hpp"
-#include "cvodes/cvodes.h"
+
+#define NV_Ith_S(x, i) (x[i])
 
 namespace CALC_RATE {
 
@@ -21,7 +19,7 @@ inline TYPES::DTP_FLOAT thermal_velocity_CGS(
 
 TYPES::DTP_FLOAT rate_adsorption(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -39,7 +37,7 @@ TYPES::DTP_FLOAT rate_adsorption(
 
 std::vector<TYPES::DTP_FLOAT> drdy_adsorption(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -61,45 +59,48 @@ std::vector<TYPES::DTP_FLOAT> drdy_adsorption(
 
 TYPES::DTP_FLOAT rate_desorption(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m)
 {
-  return NV_Ith_S(y, r.idxReactants[0])
-       * s.vibFreqs.at(r.idxReactants[0])
-       * r.abc[0]
-       * (exp(-r.abc[2]/p.get_T_dust())
-        + p.get_chi_cosmicray()
-        * CONST::phy_cosmicray_desorption_factor
-        * exp(-r.abc[2] / CONST::phy_cosmicray_desorption_T));
+  TYPES::DTP_FLOAT tmp = 
+      s.vibFreqs.at(r.idxReactants[0])
+    * r.abc[0]
+    * (exp(-r.abc[2]/p.get_T_dust())
+     + p.get_chi_cosmicray()
+     * CONST::phy_cosmicray_desorption_factor
+     * exp(-r.abc[2] / CONST::phy_cosmicray_desorption_T));
+  return tmp * NV_Ith_S(y, r.idxReactants[0]);
 }
 
 
 std::vector<TYPES::DTP_FLOAT> drdy_desorption(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m)
 {
   std::vector<TYPES::DTP_FLOAT> drdy;
-  drdy.push_back(
+  TYPES::DTP_FLOAT tmp = 
       s.vibFreqs.at(r.idxReactants[0])
     * r.abc[0]
     * (exp(-r.abc[2]/p.get_T_dust())
      + p.get_chi_cosmicray()
      * CONST::phy_cosmicray_desorption_factor
-     * exp(-r.abc[2] / CONST::phy_cosmicray_desorption_T)));
+     * exp(-r.abc[2] / CONST::phy_cosmicray_desorption_T));
+  drdy.push_back(tmp);
+  //std::cout << tmp << " " << s.vibFreqs.at(r.idxReactants[0]) << std::endl;
   return drdy;
 }
 
 
 TYPES::DTP_FLOAT rate_ion_neutral(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -116,7 +117,7 @@ TYPES::DTP_FLOAT rate_ion_neutral(
 
 std::vector<TYPES::DTP_FLOAT> drdy_ion_neutral(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -137,7 +138,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_ion_neutral(
 
 TYPES::DTP_FLOAT rate_cosmicray_ionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -150,7 +151,7 @@ TYPES::DTP_FLOAT rate_cosmicray_ionization(
 
 std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_ionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -166,7 +167,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_ionization(
 
 TYPES::DTP_FLOAT rate_cosmicray_induced_ionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -181,7 +182,7 @@ TYPES::DTP_FLOAT rate_cosmicray_induced_ionization(
 
 std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_induced_ionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -199,7 +200,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_induced_ionization(
 
 TYPES::DTP_FLOAT rate_photoionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -212,7 +213,7 @@ TYPES::DTP_FLOAT rate_photoionization(
 
 std::vector<TYPES::DTP_FLOAT> drdy_photoionization(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -245,7 +246,7 @@ inline TYPES::DTP_FLOAT calc_cross_surf_barrier_prob(
 
 TYPES::DTP_FLOAT rate_surface_AA(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -266,7 +267,7 @@ TYPES::DTP_FLOAT rate_surface_AA(
 
 std::vector<TYPES::DTP_FLOAT> drdy_surface_AA(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -287,7 +288,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_surface_AA(
 
 TYPES::DTP_FLOAT rate_surface_AB(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -310,7 +311,7 @@ TYPES::DTP_FLOAT rate_surface_AB(
 
 std::vector<TYPES::DTP_FLOAT> drdy_surface_AB(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -333,7 +334,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_surface_AB(
 
 TYPES::DTP_FLOAT rate_surf2mant(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -368,7 +369,7 @@ TYPES::DTP_FLOAT rate_surf2mant(
 
 std::vector<TYPES::DTP_FLOAT> drdy_surf2mant(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -384,7 +385,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_surf2mant(
 
 TYPES::DTP_FLOAT rate_mant2surf(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -418,7 +419,7 @@ TYPES::DTP_FLOAT rate_mant2surf(
 
 std::vector<TYPES::DTP_FLOAT> drdy_mant2surf(
     const TYPES::DTP_FLOAT& t,
-    const TYPES::DTP_Y& y,
+    double *y,
     const TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
@@ -433,6 +434,7 @@ std::vector<TYPES::DTP_FLOAT> drdy_mant2surf(
 
 
 int assignReactionHandlers(TYPES::User_data& user_data) {
+  //std::cout << "Entering assignReactionHandlers" << std::endl;
   (*user_data.rate_calculators)[1]  = rate_cosmicray_ionization;
   (*user_data.drdy_calculators)[1]  = drdy_cosmicray_ionization;
   (*user_data.rate_calculators)[71] = rate_cosmicray_ionization;
@@ -461,9 +463,8 @@ int assignReactionHandlers(TYPES::User_data& user_data) {
   //(*user_data.drdy_calculators)[73] = drdy_photoionization;
   //(*user_data.rate_calculators)[53] = rate_ion_neutral;
   //(*user_data.drdy_calculators)[53] = drdy_ion_neutral;
+  //std::cout << "Leaving assignReactionHandlers" << std::endl;
   return 0;
 }
 
 }
-
-#endif //CALC_RATE_H
