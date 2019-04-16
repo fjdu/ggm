@@ -25,7 +25,7 @@ int main(int argc, char **argv)
       TYPES::phyGetterDict[p.first](*user_data.physical_params) << " " << std::endl;
   }
 
-  LOGIS::load_reactions("reactions_test.dat", &user_data);
+  LOGIS::load_reactions("rate06_dipole_reduced_20120513_50K_com_red_com.dat", &user_data);
   std::cout << "Number of reactions: "
             << user_data.reactions->size() << std::endl;
   std::cout << "Number of species: "
@@ -73,7 +73,8 @@ int main(int argc, char **argv)
             << std::endl;
   for (auto const& s: user_data.species->idx2name) {
     if (user_data.species->abundances[s.first] > 1.0e-40) {
-      std::cout << s.second << " " << user_data.species->abundances[s.first] << std::endl;
+      std::cout << s.second << " "
+                << user_data.species->abundances[s.first] << std::endl;
     }
   }
 
@@ -81,7 +82,8 @@ int main(int argc, char **argv)
   std::cout << "Number of species with enthalpies: "
             << user_data.species->enthalpies.size() << std::endl;
   //for (auto const& s: user_data.species->enthalpies) {
-  //  std::cout << user_data.species->idx2name[s.first] << " " << s.second << std::endl;
+  //  std::cout << user_data.species->idx2name[s.first]
+  //            << " " << s.second << std::endl;
   //}
 
   CALC_RATE::assignReactionHandlers(user_data);
@@ -95,7 +97,7 @@ int main(int argc, char **argv)
 
   RATE_EQ::Updater_RE updater_re(user_data.species->idx2name.size());
   updater_re.set_user_data(&user_data);
-  updater_re.initialize_solver(1e-6, 1e-30, 21);
+  updater_re.initialize_solver(1e-6, 1e-30);
 
   TYPES::DTP_FLOAT t = 0.0, dt=1e-10, t_ratio=1.2;
   double *y = new double[updater_re.NEQ];
@@ -120,48 +122,12 @@ int main(int argc, char **argv)
             << updater_re.IWORK[17] << std::endl;
   std::cout << "NNZ: "
             << updater_re.IWORK[18] << std::endl;
-  //int IPIAN = updater_re.IWORK[22], IPJAN = updater_re.IWORK[23];
-  //double *IWK = &(updater_re.RWORK[20]);
-  //std::cout << IPIAN << " I,J " << IPJAN << std::endl;
-  //std::cout << IWK[IPIAN-1] << std::endl;
-  //for (int i=0; i<=updater_re.NEQ; ++i) {
-  //  std::cout << i+1 << " IWK_I " << IWK[IPIAN + i] << std::endl;
-  //}
-  //for (int i=0; i<updater_re.NNZ; ++i) {
-  //  std::cout << i+1 << " IWK_J " << IWK[IPJAN + i] << std::endl;
-  //}
-  //for (int i=30; i<updater_re.LIW; ++i) {
-  //  std::cout << i+1 << " " << updater_re.IWORK[i] << std::endl;
-  //}
   //for (int i=0; i<user_data.species->name2idx.size(); ++i) {
   //  std::cout << user_data.species->idx2name[i] << " "
   //            << user_data.species->abundances[i] << " "
   //            << user_data.species->abundances[i] - user_data.species->abundances[i]
   //            << std::endl;
-  //}
-  //double *ydot = new double[updater_re.NEQ];
-  //double *ydot1 = new double[updater_re.NEQ];
-  //for (int i=0; i<updater_re.NEQ; ++i) {
-  //  double dy = y[i] * 1e-4 + 1e-30;
-  //  for (int j=0; j<updater_re.NEQ; ++j) {
-  //    ydot[j] = 0.0; ydot1[j] = 0.0;
-  //  }
-  //  updater_re.f(&updater_re.NEQ, &t, y, ydot);
-  //  y[i] += dy;
-  //  updater_re.f(&updater_re.NEQ, &t, y, ydot1);
-  //  y[i] -= dy;
-  //  for (int j=0; j<updater_re.NEQ; ++j) {
-  //    double jc = (ydot1[j] - ydot[j]) / dy;
-  //    std::cout << "r" << j << " c" << i << " " << jc << std::endl;
-  //  }
-  //}
 
-//  updater_re.
-//    set_reactions().
-//    set_physical_params().
-//    set_chemical_params().
-//    set_initial_y().
-//    initialize_solver();
 
   return 0;
 }

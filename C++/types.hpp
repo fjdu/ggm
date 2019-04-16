@@ -107,6 +107,7 @@ class Reaction {
     std::vector<int> idxReactants, idxProducts;
     std::vector<DTP_FLOAT> abc;
     std::vector<DTP_FLOAT> Trange;
+    double drdy[2];
 };
 
 
@@ -139,10 +140,10 @@ class OtherData {
 
 
 typedef DTP_FLOAT (*RateCalculator)(
-    const DTP_FLOAT&, double *, const Reaction&,
+    const DTP_FLOAT&, double *, Reaction&,
     const PhyParams&, const Species&, TYPES::OtherData&);
 typedef std::vector<DTP_FLOAT> (*dRdyCalculator)(
-    const DTP_FLOAT&, double *, const Reaction&,
+    const DTP_FLOAT&, double *, Reaction&,
     const PhyParams&, const Species&, TYPES::OtherData&);
 
 

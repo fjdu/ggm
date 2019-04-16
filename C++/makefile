@@ -20,13 +20,13 @@ types.o: types.hpp types.cpp
 constants.o: constants.cpp
 	$(CPL) $(CPLOPT) -c constants.cpp
 
-main.o: main.cpp rate_equation_lsode.hpp logistics.hpp types.hpp
+main.o: main.cpp rate_equation_lsode.hpp logistics.hpp types.hpp calculate_reaction_rate.hpp
 	$(CPL) $(CPLOPT) -c main.cpp
 
 logistics.o: logistics.cpp
 	$(CPL) $(CPLOPT) -c logistics.cpp
 
-calculate_reaction_rate.o: calculate_reaction_rate.cpp
+calculate_reaction_rate.o: calculate_reaction_rate.cpp calculate_reaction_rate.hpp
 	$(CPL) $(CPLOPT) -c calculate_reaction_rate.cpp
 
 rate_equation_lsode.o: rate_equation_lsode.cpp

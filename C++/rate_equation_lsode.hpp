@@ -47,10 +47,10 @@ class Updater_RE {
       if (data != nullptr) {
       }
       if (IWORK != nullptr) {
-        delete IWORK;
+        delete [] IWORK;
       }
       if (RWORK != nullptr) {
-        delete RWORK;
+        delete [] RWORK;
       }
     }
 

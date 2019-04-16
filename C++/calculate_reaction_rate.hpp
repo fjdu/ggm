@@ -18,7 +18,7 @@ extern inline TYPES::DTP_FLOAT thermal_velocity_CGS(
 extern TYPES::DTP_FLOAT rate_adsorption(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -27,7 +27,7 @@ extern TYPES::DTP_FLOAT rate_adsorption(
 extern std::vector<TYPES::DTP_FLOAT> drdy_adsorption(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -36,7 +36,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_adsorption(
 extern TYPES::DTP_FLOAT rate_desorption(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -45,7 +45,7 @@ extern TYPES::DTP_FLOAT rate_desorption(
 extern std::vector<TYPES::DTP_FLOAT> drdy_desorption(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -54,7 +54,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_desorption(
 extern TYPES::DTP_FLOAT rate_ion_neutral(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -63,7 +63,7 @@ extern TYPES::DTP_FLOAT rate_ion_neutral(
 extern std::vector<TYPES::DTP_FLOAT> drdy_ion_neutral(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -72,7 +72,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_ion_neutral(
 extern TYPES::DTP_FLOAT rate_cosmicray_ionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -81,7 +81,7 @@ extern TYPES::DTP_FLOAT rate_cosmicray_ionization(
 extern std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_ionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -90,7 +90,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_ionization(
 extern TYPES::DTP_FLOAT rate_cosmicray_induced_ionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -99,7 +99,7 @@ extern TYPES::DTP_FLOAT rate_cosmicray_induced_ionization(
 extern std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_induced_ionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -108,7 +108,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_cosmicray_induced_ionization(
 extern TYPES::DTP_FLOAT rate_photoionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -117,20 +117,20 @@ extern TYPES::DTP_FLOAT rate_photoionization(
 extern std::vector<TYPES::DTP_FLOAT> drdy_photoionization(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
 
 
 extern inline TYPES::DTP_FLOAT calc_cross_surf_barrier_prob(
-    const TYPES::PhyParams& p, const TYPES::Reaction& r);
+    const TYPES::PhyParams& p, TYPES::Reaction& r);
 
 
 extern TYPES::DTP_FLOAT rate_surface_AA(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -139,7 +139,7 @@ extern TYPES::DTP_FLOAT rate_surface_AA(
 extern std::vector<TYPES::DTP_FLOAT> drdy_surface_AA(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -148,7 +148,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_surface_AA(
 extern TYPES::DTP_FLOAT rate_surface_AB(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -157,7 +157,7 @@ extern TYPES::DTP_FLOAT rate_surface_AB(
 extern std::vector<TYPES::DTP_FLOAT> drdy_surface_AB(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -166,7 +166,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_surface_AB(
 extern TYPES::DTP_FLOAT rate_surf2mant(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -175,7 +175,7 @@ extern TYPES::DTP_FLOAT rate_surf2mant(
 extern std::vector<TYPES::DTP_FLOAT> drdy_surf2mant(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -184,7 +184,7 @@ extern std::vector<TYPES::DTP_FLOAT> drdy_surf2mant(
 extern TYPES::DTP_FLOAT rate_mant2surf(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
@@ -193,7 +193,7 @@ extern TYPES::DTP_FLOAT rate_mant2surf(
 extern std::vector<TYPES::DTP_FLOAT> drdy_mant2surf(
     const TYPES::DTP_FLOAT& t,
     const TYPES::DTP_Y y,
-    const TYPES::Reaction& r,
+    TYPES::Reaction& r,
     const TYPES::PhyParams& p,
     const TYPES::Species& s,
     TYPES::OtherData& m);
