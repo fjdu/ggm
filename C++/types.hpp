@@ -8,7 +8,9 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include "math.h"
 #include "constants.hpp"
+#include <iomanip>
 
 namespace TYPES {
 
@@ -107,7 +109,7 @@ class Reaction {
     std::vector<int> idxReactants, idxProducts;
     std::vector<DTP_FLOAT> abc;
     std::vector<DTP_FLOAT> Trange;
-    double drdy[2];
+    double drdy[2] {NAN, NAN};
 };
 
 
@@ -119,7 +121,7 @@ typedef std::map<std::string, DTP_FLOAT> Elements;
 class Species {
   public:
     std::map<std::string, int> name2idx;
-    std::map<int, std::string> idx2name;
+    std::vector<std::string> idx2name;
     std::map<int, std::map<std::string, int> > elementsSpecies;
     std::map<int, DTP_FLOAT> massSpecies, enthalpies,
                              vibFreqs, diffBarriers, quantMobilities;
@@ -136,6 +138,8 @@ class OtherData {
   public:
     DTP_FLOAT t_calc, k_eva_tot, k_ads_tot, mant_tot, surf_tot;
     Reactions ads_reactions, eva_reactions;
+    OtherData(): t_calc(NAN), k_eva_tot(0.0), k_ads_tot(0.0),
+                 mant_tot(0.0), surf_tot(0.0) {}
 };
 
 
@@ -181,6 +185,43 @@ class User_data {
       delete other_data;
     }
   private:
+};
+
+
+class Recorder {
+  public:
+    std::string fname;
+    std::ofstream ofs;
+
+    Recorder(std::string fname_): fname(fname_) {
+      ofs.open(fname);
+    }
+
+    ~Recorder() {
+      ofs.close();
+    }
+
+    int write_header(std::vector<std::string> names,
+                     int fwidth=14) {
+      ofs << std::setw(fwidth) << std::left << "Time";
+      for (auto const& n: names) {
+        ofs << std::setw(fwidth) << std::left << n;
+      }
+      ofs << std::endl;
+      return 0;
+    }
+
+    int write_row(double t, int neq, double *y,
+                  int fwidth=14, int prec=5) {
+      ofs << std::setw(fwidth) << std::left << std::scientific
+          << std::setprecision(prec) << t;
+      for (int i=0; i<neq; ++i) {
+        ofs << std::setw(fwidth) << std::left << std::scientific
+          << std::setprecision(prec) << y[i];
+      }
+      ofs << std::endl;
+      return 0;
+    }
 };
 
 

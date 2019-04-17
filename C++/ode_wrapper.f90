@@ -10,8 +10,8 @@ subroutine fdlsodes_w( &
   RWORK, LRW, IWORK, LIW, jac, MF) bind(C, name="dlsodes_w")
   bind(C) f, jac
   EXTERNAL f, jac
-  double precision, intent(in) :: t
-  double precision, intent(inout) :: tout
+  double precision, intent(inout) :: t
+  double precision, intent(in) :: tout
   double precision, intent(in) :: RTOL, ATOL
   integer, intent(in) :: NEQ, ITOL, ITASK, IOPT, LRW, LIW, MF
   integer, intent(inout) :: ISTATE

@@ -1,8 +1,10 @@
 CPL?=g++
-CPLOPT=-std=c++11
+OPTLVL=-O3
+CPLOPT=-std=c++11 -Wall $(OPTLVL)
 FCC?=gfortran
+FCCOPT?=-c -Wall $(OPTLVL)
 LINKER?=gfortran
-LINKOPT=-lc++
+LINKOPT=-lc++ -Wall $(OPTLVL)
 #  -pedantic -Wall -Wextra
 
 target?=re
@@ -36,10 +38,10 @@ utils.o: utils.cpp
 	$(CPL) $(CPLOPT) -c utils.cpp
 
 ode_wrapper.o: ode_wrapper.f90
-	$(FCC) -c ode_wrapper.f90
+	$(FCC) $(FCCOPT) ode_wrapper.f90
 
 opkdmain.o: opkdmain.f opkda1.f opkda2.f
-	$(FCC) -c opkd*.f
+	$(FCC) $(FCCOPT) opkd*.f
 
 clean:
 	rm *.o *.gch

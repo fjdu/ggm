@@ -55,7 +55,7 @@ int load_reactions(const std::string& fname,
             (species.name2idx.find(name) == species.name2idx.end())) {
           int nSpecies = species.name2idx.size();
           species.name2idx[name] = nSpecies;
-          species.idx2name[nSpecies] = name;
+          species.idx2name.push_back(name);
         }
 
         if (name.size() > 0) {
@@ -92,7 +92,12 @@ int load_reactions(const std::string& fname,
 
       int iType = iT + nT * lenT;
       std::string tmp = line.substr(iType, lenType);
-      reaction.itype = std::stoi(tmp);
+      try {
+        reaction.itype = std::stoi(tmp);
+      } catch (...) {
+        std::cout << "Exception in load_reactions: "
+                  << " " << tmp << std::endl;
+      }
       if (reaction_types.find(reaction.itype) == reaction_types.end()) {
         reaction_types[reaction.itype] = 1;
       } else {
@@ -100,18 +105,6 @@ int load_reactions(const std::string& fname,
       }
 
       reactions.push_back(reaction);
-
-      //for (auto const& i: reaction.idxReactants) {
-      //  std::cout << species.idx2name[i] << " ("<< i << ") ";
-      //}
-      //std::cout << " -> ";
-      //for (auto const& i: reaction.idxProducts) {
-      //  std::cout << species.idx2name[i] << " (" << i << ") ";
-      //}
-      //std::cout << " " << reaction.abc[0] << " " << reaction.abc[1] << " " << reaction.abc[2]
-      //          << " " << reaction.itype
-      //          << " " << reaction.Trange[0] << " " << reaction.Trange[1]
-      //          << std::endl;
     }
   } else {
     return -1;
@@ -156,8 +149,14 @@ std::map<std::string, int> assignElementsToOneSpecies(
       iBg += q->first.size();
 
       std::smatch matches;
-      if (std::regex_search(name.substr(iBg), matches, npat)) {
-        eleDict[q->first] += std::stoi(matches.str(1));
+      std::string subname = name.substr(iBg);
+      if (std::regex_search(subname, matches, npat)) {
+        try {
+          eleDict[q->first] += std::stoi(matches.str(1));
+        } catch (...) {
+          std::cout << "Exception in assignElementsToOneSpecies: "
+                    << " " << matches.str(1) << std::endl;
+        }
         iBg += matches.str(1).size();
       } else {
         eleDict[q->first] += 1;

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "types.hpp"
 #include "rate_equation_lsode.hpp"
+#include "calculate_reaction_rate.hpp"
 
 namespace RATE_EQ {
 
@@ -33,19 +34,33 @@ int Updater_RE::makeSparse(
 
 TYPES::DTP_FLOAT Updater_RE::update(double t, double dt, double *y)
 {
+  double t0 = t;
   double tout = t + dt;
+
   dlsodes_w(f, &NEQ, y, &t, &tout, &ITOL, &RTOL, &ATOL, &ITASK,
             &ISTATE, &IOPT, RWORK, &LRW, IWORK, &LIW, jac, &MF);
-  std::cout << t;
-  std::cout << " -> " << tout << " ISTATE = " << ISTATE << std::endl;
-  return tout;
+
+  std::cout << (char)27 << "[A"
+            << std::setw(12) << std::setprecision(5) << std::left
+            << t0 << " -> "
+            << std::setw(12) << std::setprecision(5) << std::left
+            << t
+            << " ISTATE = " << ISTATE
+            << " #f = "   << std::setw(6) << IWORK[11]
+            << " #jac = " << std::setw(6) << IWORK[12]
+            << " LRW = " << IWORK[16]
+            << " LIW = " << IWORK[17]
+            << " NNZ = " << IWORK[18]
+            << std::endl;
+  return t;
 }
 
 
 int Updater_RE::initialize_solver(
     double reltol,
     double abstol,
-    int mf) //021: use Jac; 022: not.
+    int mf, //021: use Jac; 022: not.
+    int LRW_fact)
 {
   MF = mf;
   IOPT = 1;
@@ -59,7 +74,7 @@ int Updater_RE::initialize_solver(
   std::cout << "NNZ = " << NNZ << " ("
             << (double)NNZ / (double)(NEQ*NEQ) << ")" << std::endl;
 
-  LRW = 20 + 20 * NEQ + 4 * NNZ;
+  LRW = 20 + 20 * NEQ + LRW_fact * NNZ;
   LIW = 31 + NEQ + NNZ;
 
   RWORK = new double[LRW];
@@ -90,10 +105,9 @@ int Updater_RE::initialize_solver(
     IWORK[31+i] = k;
   }
   if (NNZ != (k-1)) {
-    std::cout << "NNZ != (k-1)" << k-1 << std::endl;
+    std::cerr << "NNZ != (k-1)" << k-1 << std::endl;
   }
 
-  std::cout << "Solver initialized." << std::endl;
   return 0;
 }
 
@@ -103,6 +117,11 @@ void Updater_RE::f(int *neq, double *t, double *y, double *ydot)
   for (int i=0; i<*neq; ++i) {
     ydot[i] = 0.0;
   }
+
+  CALC_RATE::update_surfmant(
+      *t, y, *(data->physical_params),
+      *(data->species), *(data->other_data));
+
   for (auto &reaction: *(data->reactions)) {
     if (reaction.itype == 67) {
       continue;
@@ -128,19 +147,10 @@ void Updater_RE::jac(int *neq, double *t, double *y, int *j, double *ian, double
     if (r.itype == 67) {
       continue;
     }
-    //bool notcalculated = true;
-    //std::vector<TYPES::DTP_FLOAT> drdy;
     for (int i=0; i < r.idxReactants.size(); ++i) {
       if (r.idxReactants[i] != jc) {
         continue;
       }
-      //if (notcalculated) {
-      //  drdy = ((*(data->drdy_calculators))[r.itype])(*t, y, r,
-      //    *(data->physical_params),
-      //    *(data->species),
-      //    *(data->other_data));
-      //  notcalculated = false;
-      //}
       for (auto const& k: r.idxReactants) {
         pdj[k] -= r.drdy[i];
       }

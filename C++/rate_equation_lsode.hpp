@@ -58,7 +58,7 @@ class Updater_RE {
 
     Updater_RE& set_recorder();
 
-    int initialize_solver(double reltol=1e-6, double abstol=1e-30, int mf=21);
+    int initialize_solver(double reltol=1e-6, double abstol=1e-30, int mf=21, int LRW_fact=4);
     int makeSparse(const TYPES::Reactions& reactions,
                    std::vector<std::vector<bool> >& sps);
 
