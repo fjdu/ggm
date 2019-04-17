@@ -1,4 +1,4 @@
-n_gas = 1.0e6
+n_gas = 1.0e8
 T_gas = 20.0
 T_dust = 20.0
 Av = 10.0

@@ -31,7 +31,7 @@ logistics.o: logistics.cpp
 calculate_reaction_rate.o: calculate_reaction_rate.cpp calculate_reaction_rate.hpp
 	$(CPL) $(CPLOPT) -c calculate_reaction_rate.cpp
 
-rate_equation_lsode.o: rate_equation_lsode.cpp
+rate_equation_lsode.o: rate_equation_lsode.cpp calculate_reaction_rate.hpp
 	$(CPL) $(CPLOPT) -c rate_equation_lsode.cpp
 
 utils.o: utils.cpp

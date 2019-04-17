@@ -24,7 +24,7 @@ int main(int argc, char **argv)
       TYPES::phyGetterDict[p.first](*user_data.physical_params) << " " << std::endl;
   }
 
-  LOGIS::load_reactions("rate06_dipole_reduced_20120513_50K_com_red_com.dat", &user_data);
+  LOGIS::load_reactions("rate06_withgrain_lowH2Bind_hiOBind_lowCObind.dat", &user_data);
   std::cout << "Number of reactions: "
             << user_data.reactions->size() << std::endl;
   std::cout << "Number of species: "

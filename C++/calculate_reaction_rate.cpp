@@ -227,7 +227,7 @@ TYPES::DTP_FLOAT rate_mant2surf(
   if (m.t_calc != t) {
     update_surfmant(t, y, p, s, m);
   }
-  r.drdy[0] = m.k_eva_tot / p.get_dust2gas_num()
+  r.drdy[0] = m.k_eva_tot
        / (std::max(m.surf_tot, m.mant_tot) + 1e-60);
   return NV_Ith_S(y, i0) * r.drdy[0];
 }
