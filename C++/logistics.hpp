@@ -21,7 +21,7 @@ extern int load_reactions(const std::string& fname,
            int rowlen_min=126);
 
 
-extern void assort_reactions(const TYPES::Reactions& reactions, TYPES::OtherData *m);
+extern void assort_reactions(const TYPES::Reactions& reactions, const TYPES::Species& species, TYPES::OtherData *m);
 
 
 extern std::map<std::string, int> assignElementsToOneSpecies(
@@ -50,6 +50,8 @@ extern int loadInitialAbundances(TYPES::Species& species, std::string fname);
 
 
 extern int loadSpeciesEnthalpies(TYPES::Species& species, std::string fname);
+
+extern TYPES::PathsDict loadPathConfig(std::string fname);
 
 
 }

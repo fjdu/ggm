@@ -41,10 +41,11 @@ public:
   inline DTP_FLOAT get_dust_albedo() const {return dust_albedo;}
   inline DTP_FLOAT get_mean_mol_weight() const {return mean_mol_weight;}
   inline DTP_FLOAT get_chemdesorption_factor() const {return chemdesorption_factor;}
+  inline DTP_FLOAT get_t_max_year() const {return t_max_year;}
 
-  inline DTP_FLOAT get_n_gas(DTP_FLOAT t) const;
-  inline DTP_FLOAT get_T_gas(DTP_FLOAT t) const;
-  inline DTP_FLOAT get_T_dust(DTP_FLOAT t) const;
+  DTP_FLOAT get_n_gas(DTP_FLOAT t) const;
+  DTP_FLOAT get_T_gas(DTP_FLOAT t) const;
+  DTP_FLOAT get_T_dust(DTP_FLOAT t) const;
   inline DTP_FLOAT get_Av(DTP_FLOAT t) const;
   inline DTP_FLOAT get_G0_UV(DTP_FLOAT t) const;
   inline DTP_FLOAT get_chi_Xray(DTP_FLOAT t) const;
@@ -75,6 +76,7 @@ public:
   PhyParams& set_dust_albedo(DTP_FLOAT _v);
   PhyParams& set_mean_mol_weight(DTP_FLOAT _v);
   PhyParams& set_chemdesorption_factor(DTP_FLOAT _v);
+  PhyParams& set_t_max_year(DTP_FLOAT _v);
 
   void prep_params();
 
@@ -85,6 +87,7 @@ private:
     dust2gas_num, dust2gas_mass, dust_material_density,
     dust_site_density, dust_radius, dust_crosssec, dust_albedo,
     mean_mol_weight, chemdesorption_factor;
+  double t_max_year;
 };
 
 
@@ -154,6 +157,7 @@ typedef std::vector<DTP_FLOAT> (*dRdyCalculator)(
 typedef std::map<int, RateCalculator> RateCalculators;
 typedef std::map<int, dRdyCalculator> dRdyCalculators;
 
+typedef std::map<std::string, std::string> PathsDict;
 
 class User_data {
   public:
@@ -204,6 +208,9 @@ class Recorder {
     int write_header(std::vector<std::string> names,
                      int fwidth=14) {
       ofs << std::setw(fwidth) << std::left << "Time";
+      ofs << std::setw(fwidth) << std::left << "T_gas";
+      ofs << std::setw(fwidth) << std::left << "T_dust";
+      ofs << std::setw(fwidth) << std::left << "n_gas";
       for (auto const& n: names) {
         ofs << std::setw(fwidth) << std::left << n;
       }
@@ -212,9 +219,16 @@ class Recorder {
     }
 
     int write_row(double t, int neq, double *y,
+                  const TYPES::PhyParams& p,
                   int fwidth=14, int prec=5) {
       ofs << std::setw(fwidth) << std::left << std::scientific
-          << std::setprecision(prec) << t;
+          << std::setprecision(prec) << t / CONST::phy_SecondsPerYear;
+      ofs << std::setw(fwidth) << std::left << std::scientific
+        << std::setprecision(prec) << p.get_T_gas(t);
+      ofs << std::setw(fwidth) << std::left << std::scientific
+        << std::setprecision(prec) << p.get_T_dust(t);
+      ofs << std::setw(fwidth) << std::left << std::scientific
+        << std::setprecision(prec) << p.get_n_gas(t);
       for (int i=0; i<neq; ++i) {
         ofs << std::setw(fwidth) << std::left << std::scientific
           << std::setprecision(prec) << y[i];

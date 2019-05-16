@@ -26,6 +26,38 @@ PhyParams& PhyParams::set_dust_crosssec(DTP_FLOAT _v) {dust_crosssec = _v; retur
 PhyParams& PhyParams::set_dust_albedo(DTP_FLOAT _v) {dust_albedo = _v; return *this;}
 PhyParams& PhyParams::set_mean_mol_weight(DTP_FLOAT _v) {mean_mol_weight = _v; return *this;}
 PhyParams& PhyParams::set_chemdesorption_factor(DTP_FLOAT _v) {chemdesorption_factor = _v; return *this;}
+PhyParams& PhyParams::set_t_max_year(DTP_FLOAT _v) {t_max_year = _v; return *this;}
+
+
+DTP_FLOAT PhyParams::get_T_gas(DTP_FLOAT t) const {
+  return T_gas;
+  double t_scale = CONST::phy_SecondsPerYear * 1e5;
+  double ts = t / t_scale;
+  double Tbase = 15.0, Tscale=70.0;
+  double T = Tbase + Tscale * ts * ts * exp(-ts);
+  return T;
+}
+
+
+DTP_FLOAT PhyParams::get_T_dust(DTP_FLOAT t) const {
+  return T_dust;
+  double t_scale = CONST::phy_SecondsPerYear * 1e5;
+  double ts = t / t_scale;
+  double Tbase = 10.0, Tscale=70.0;
+  double T = Tbase + Tscale * ts * ts * exp(-ts);
+  return T;
+}
+
+
+DTP_FLOAT PhyParams::get_n_gas(DTP_FLOAT t) const {
+  return n_gas;
+  double t_scale = CONST::phy_SecondsPerYear * 1e5;
+  double ts = t / t_scale;
+  double nbase = 1e6;
+  double n = nbase * (1.0 + ts);
+  return n;
+}
+
 
 inline DTP_FLOAT get_n_gas(PhyParams& p) {return p.get_n_gas();}
 inline DTP_FLOAT get_T_gas(PhyParams& p) {return p.get_T_gas();}
@@ -43,6 +75,7 @@ inline DTP_FLOAT get_dust_crosssec(PhyParams& p) {return p.get_dust_crosssec();}
 inline DTP_FLOAT get_dust_albedo(PhyParams& p) {return p.get_dust_albedo();}
 inline DTP_FLOAT get_mean_mol_weight(PhyParams& p) {return p.get_mean_mol_weight();}
 inline DTP_FLOAT get_chemdesorption_factor(PhyParams& p) {return p.get_chemdesorption_factor();}
+inline DTP_FLOAT get_t_max_year(PhyParams& p) {return p.get_t_max_year();}
 
 
 void set_n_gas(PhyParams& p, DTP_FLOAT _v) {p.set_n_gas(_v);}
@@ -61,6 +94,7 @@ void set_dust_crosssec(PhyParams& p, DTP_FLOAT _v) {p.set_dust_crosssec(_v);}
 void set_dust_albedo(PhyParams& p, DTP_FLOAT _v) {p.set_dust_albedo(_v);}
 void set_mean_mol_weight(PhyParams& p, DTP_FLOAT _v) {p.set_mean_mol_weight(_v);}
 void set_chemdesorption_factor(PhyParams& p, DTP_FLOAT _v) {p.set_chemdesorption_factor(_v);}
+void set_t_max_year(PhyParams& p, DTP_FLOAT _v) {p.set_t_max_year(_v);}
 
 
 std::map<std::string, void (*)(PhyParams&, DTP_FLOAT)> phySetterDict = {
@@ -79,7 +113,8 @@ std::map<std::string, void (*)(PhyParams&, DTP_FLOAT)> phySetterDict = {
   {"dust_crosssec", set_dust_crosssec},
   {"dust_albedo", set_dust_albedo},
   {"mean_mol_weight", set_mean_mol_weight},
-  {"chemdesorption_factor", set_chemdesorption_factor}
+  {"chemdesorption_factor", set_chemdesorption_factor},
+  {"t_max_year", set_t_max_year}
 };
 
 
@@ -99,7 +134,8 @@ std::map<std::string, DTP_FLOAT (*)(PhyParams&)> phyGetterDict = {
   {"dust_crosssec", get_dust_crosssec},
   {"dust_albedo", get_dust_albedo},
   {"mean_mol_weight", get_mean_mol_weight},
-  {"chemdesorption_factor", get_chemdesorption_factor}
+  {"chemdesorption_factor", get_chemdesorption_factor},
+  {"t_max_year", get_t_max_year}
 };
 
 
@@ -138,7 +174,7 @@ int PhyParams::from_file(std::string fname)
       }
     }
   } else {
-    std::cout << "Error reading file: " << fname << std::endl;
+    std::cout << "Error in PhyParams::from_file: " << fname << std::endl;
   }
   return 0;
 }

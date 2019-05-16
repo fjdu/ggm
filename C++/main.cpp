@@ -15,16 +15,29 @@ int main(int argc, char **argv)
   }
   std::cout << std::endl;
 
-  TYPES::User_data user_data;
-
-  user_data.physical_params->from_file("phy_params.dat");
-  user_data.physical_params->prep_params();
-  for (auto const& p: TYPES::phySetterDict) {
-    std::cout << p.first << " = " <<
-      TYPES::phyGetterDict[p.first](*user_data.physical_params) << " " << std::endl;
+  std::string fname_path_config;
+  if (argc < 2) {
+    fname_path_config = "paths.dat";
+  } else {
+    fname_path_config = argv[1];
   }
 
-  LOGIS::load_reactions("rate06_withgrain_lowH2Bind_hiOBind_lowCObind.dat", &user_data);
+  TYPES::PathsDict pdict = LOGIS::loadPathConfig(fname_path_config);
+  for (auto const& p: pdict) {
+    std::cout << p.first << " = " << p.second << std::endl;
+  }
+
+  TYPES::User_data user_data;
+
+  user_data.physical_params->from_file(pdict["f_phy_params"]);
+  user_data.physical_params->prep_params();
+  for (auto const& p: TYPES::phySetterDict) {
+    std::cout << p.first << " = "
+              << TYPES::phyGetterDict[p.first](*user_data.physical_params)
+              << " " << std::endl;
+  }
+
+  LOGIS::load_reactions(pdict["f_reactions"], &user_data);
   std::cout << "Number of reactions: "
             << user_data.reactions->size() << std::endl;
   std::cout << "Number of species: "
@@ -34,7 +47,8 @@ int main(int argc, char **argv)
   for (auto const& i: *(user_data.reaction_types)) {
     std::cout << i.first << ": " << i.second << "\n";
   }
-  LOGIS::assort_reactions(*(user_data.reactions), user_data.other_data);
+  LOGIS::assort_reactions(*(user_data.reactions),
+                          *(user_data.species), user_data.other_data);
   std::cout << "Number of adsorption reactions: "
             << user_data.other_data->ads_reactions.size() << std::endl;
   std::cout << "Number of evaporation reactions: "
@@ -45,16 +59,6 @@ int main(int argc, char **argv)
   LOGIS::calculateSpeciesVibFreqs(*(user_data.species), *(user_data.reactions));
   LOGIS::calculateSpeciesDiffBarriers(*(user_data.species), *(user_data.reactions));
   LOGIS::calculateSpeciesQuantumMobilities(*(user_data.species), *(user_data.reactions));
-  //for (auto const& s: user_data.species->name2idx) {
-  //  std::cout << s.first << " ";
-  //  auto eleDict = user_data.species->elementsSpecies[s.second];
-  //  for (auto const& e: CONST::element_masses) {
-  //    if (eleDict[e.first] != 0) {
-  //      std::cout << e.first << "(" << eleDict[e.first] << ") ";
-  //    }
-  //  }
-  //  std::cout << " " << user_data.species->massSpecies[s.second] << std::endl;
-  //}
 
   LOGIS::classifySpeciesByPhase(*(user_data.species));
   std::cout << "Number of gas species: "
@@ -64,7 +68,7 @@ int main(int argc, char **argv)
   std::cout << "Number of mantle species: "
             << user_data.species->mantleSpecies.size() << std::endl;
 
-  LOGIS::loadInitialAbundances(*user_data.species, "initial_abundances.dat");
+  LOGIS::loadInitialAbundances(*user_data.species, pdict["f_initial_abundances"]);
   std::cout << "Number of species with initial abundances: "
             << std::count_if(user_data.species->abundances.begin(),
                              user_data.species->abundances.end(),
@@ -77,7 +81,7 @@ int main(int argc, char **argv)
     }
   }
 
-  LOGIS::loadSpeciesEnthalpies(*user_data.species, "Species_enthalpy.dat");
+  LOGIS::loadSpeciesEnthalpies(*user_data.species, pdict["f_enthalpies"]);
   std::cout << "Number of species with enthalpies: "
             << user_data.species->enthalpies.size() << std::endl;
   //for (auto const& s: user_data.species->enthalpies) {
@@ -94,27 +98,36 @@ int main(int argc, char **argv)
     }
   }
 
-  TYPES::Recorder recorder("evol_001.dat");
+  TYPES::Recorder recorder(pdict["f_record"]);
   recorder.write_header(user_data.species->idx2name);
 
-  RATE_EQ::Updater_RE updater_re(user_data.species->idx2name.size());
+  RATE_EQ::Updater_RE updater_re;
   updater_re.set_user_data(&user_data);
   updater_re.initialize_solver(1e-6, 1e-30);
 
-  TYPES::DTP_FLOAT t = 0.0, dt=1e-2, t_ratio=1.1;
+  TYPES::DTP_FLOAT t = 0.0, dt=1e-2, t_ratio=1.08;
+  int NMAX = 600;
+  double t_max_seconds = user_data.physical_params->get_t_max_year() * CONST::phy_SecondsPerYear;
   double *y = new double[updater_re.NEQ];
   for (int i=0; i<updater_re.NEQ; ++i) {
     y[i] = user_data.species->abundances[i];
   }
 
-  recorder.write_row(t, updater_re.NEQ, y);
+  recorder.write_row(t, updater_re.NEQ, y, *user_data.physical_params);
   std::cout << std::endl;
 
   clock_t rt_begin = std::clock();
-  for (int i=0; i<400; ++i) {
+  for (int i=0; i<NMAX; ++i) {
     t = updater_re.update(t, dt, y);
-    recorder.write_row(t/CONST::phy_SecondsPerYear, updater_re.NEQ, y);
+    recorder.write_row(t, updater_re.NEQ,
+                       y, *user_data.physical_params);
+    if (t >= t_max_seconds) {
+      break;
+    }
     dt *= t_ratio;
+    if (t + dt > t_max_seconds) {
+      dt = t_max_seconds - t;
+    }
     if (updater_re.ISTATE != 2) {
       std::cout << "Failed: " << updater_re.ISTATE << std::endl;
       if ((updater_re.ISTATE == -1) ||

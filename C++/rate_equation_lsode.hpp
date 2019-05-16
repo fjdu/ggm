@@ -27,25 +27,20 @@ class Updater_RE {
 
     void set_user_data(TYPES::User_data *data_) {
       data = data_;
-      std::cout << "User_data set." << std::endl;
-    }
 
-    Updater_RE(int neq_) {
-      NEQ = neq_;
-      solver_initialized = false;
+      NEQ = data->species->idx2name.size();
     
+      sparseMaskJac.clear();
       for (int i=0; i<NEQ; ++i) {
         sparseMaskJac.push_back(std::vector<bool>(NEQ, false));
       }
-
-      std::cout << "Updater_RE constructed." << std::endl;
+      std::cout << "User_data set." << std::endl;
     }
 
+    Updater_RE() {}
+
     ~Updater_RE() {
-      if (solver_initialized) {
-      }
-      if (data != nullptr) {
-      }
+      data = nullptr;
       if (IWORK != nullptr) {
         delete [] IWORK;
       }
@@ -68,7 +63,6 @@ class Updater_RE {
     int NEQ, ITOL, ITASK, ISTATE, IOPT, LRW, LIW, MF, NNZ;
     double RTOL, ATOL;
     std::vector<std::vector<bool> > sparseMaskJac;
-    bool solver_initialized;
 };
 
 

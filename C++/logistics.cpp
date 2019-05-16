@@ -51,6 +51,10 @@ int load_reactions(const std::string& fname,
         std::string name = line.substr(i*lenSpeciesName, lenSpeciesName);
         name = UTILS::trim(name);
 
+        if ((name == "PHOTON") || (name == "CRPHOT") || (name == "CRP")) {
+          continue;
+        }
+
         if ((name.size() > 0) &&
             (species.name2idx.find(name) == species.name2idx.end())) {
           int nSpecies = species.name2idx.size();
@@ -95,8 +99,8 @@ int load_reactions(const std::string& fname,
       try {
         reaction.itype = std::stoi(tmp);
       } catch (...) {
-        std::cout << "Exception in load_reactions: "
-                  << " " << tmp << std::endl;
+        std::cerr << "Exception in load_reactions: "
+                  << tmp << std::endl;
       }
       if (reaction_types.find(reaction.itype) == reaction_types.end()) {
         reaction_types[reaction.itype] = 1;
@@ -107,6 +111,8 @@ int load_reactions(const std::string& fname,
       reactions.push_back(reaction);
     }
   } else {
+    std::cerr << "Error in load_reactions: "
+              << fname << std::endl;
     return -1;
   }
 
@@ -116,12 +122,22 @@ int load_reactions(const std::string& fname,
 }
 
 
-void assort_reactions(const TYPES::Reactions& reactions, TYPES::OtherData *m)
+void assort_reactions(const TYPES::Reactions& reactions,
+                      const TYPES::Species& species,
+                      TYPES::OtherData *m)
 {
   for (auto const& r: reactions) {
     if (r.itype == 61) {
+      //if ((species.idx2name[r.idxReactants[0]] == "H2") ||
+      //    (species.idx2name[r.idxReactants[0]] == "H")) {
+      //  continue;
+      //}
       m->ads_reactions.push_back(r);
     } else if (r.itype == 62) {
+      //if ((species.idx2name[r.idxReactants[0]] == "gH2") ||
+      //    (species.idx2name[r.idxReactants[0]] == "gH")) {
+      //  continue;
+      //}
       m->eva_reactions.push_back(r);
     }
   }
@@ -307,7 +323,7 @@ int loadInitialAbundances(TYPES::Species& species, std::string fname) {
       }
     }
   } else {
-    std::cout << "Error reading file: " << fname << std::endl;
+    std::cout << "Error in loadInitialAbundances: " << fname << std::endl;
   }
   return 0;
 }
@@ -340,9 +356,36 @@ int loadSpeciesEnthalpies(TYPES::Species& species, std::string fname) {
       }
     }
   } else {
-    std::cout << "Error reading file: " << fname << std::endl;
+    std::cout << "Error loadSpeciesEnthalpies: " << fname << std::endl;
   }
   return 0;
+}
+
+
+TYPES::PathsDict loadPathConfig(std::string fname) {
+  std::string line;
+  std::regex comment(R"(^[!#].*$)");
+  std::regex emptyline(R"(^\s*$)");
+  std::regex entry(R"(^\s*(\S+)\s*=\s*([^!#]*[^ !#]+)\s*(?:([!#])|($)))");
+  std::ifstream inputFile(fname);
+  TYPES::PathsDict pd;
+  if (inputFile.good()) {
+    while (std::getline(inputFile, line)) {
+      if (std::regex_match(line, comment)) {
+        continue;
+      }
+      if (std::regex_match(line, emptyline)) {
+        continue;
+      }
+      std::smatch matches;
+      if (std::regex_search(line, matches, entry)) {
+        pd[matches.str(1)] = matches.str(2);
+      }
+    }
+  } else {
+    std::cout << "Error in loadPathConfig: " << fname << std::endl;
+  }
+  return pd;
 }
 
 

@@ -117,6 +117,33 @@ extern TYPES::DTP_FLOAT rate_mant2surf(
     TYPES::OtherData& m);
 
 
+extern TYPES::DTP_FLOAT rate_iongrain(
+    const TYPES::DTP_FLOAT& t,
+    const TYPES::DTP_Y y,
+    TYPES::Reaction& r,
+    const TYPES::PhyParams& p,
+    const TYPES::Species& s,
+    TYPES::OtherData& m);
+
+
+extern TYPES::DTP_FLOAT rate_photodesorption(
+    const TYPES::DTP_FLOAT& t,
+    const TYPES::DTP_Y y,
+    TYPES::Reaction& r,
+    const TYPES::PhyParams& p,
+    const TYPES::Species& s,
+    TYPES::OtherData& m);
+
+
+extern TYPES::DTP_FLOAT rate_dummy(
+    const TYPES::DTP_FLOAT& t,
+    const TYPES::DTP_Y y,
+    TYPES::Reaction& r,
+    const TYPES::PhyParams& p,
+    const TYPES::Species& s,
+    TYPES::OtherData& m);
+
+
 extern int assignReactionHandlers(TYPES::User_data& user_data);
 
 }
